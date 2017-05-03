@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using GiveOrTake.BackEnd.Models;
 
 namespace GiveOrTake.BackEnd
 {
@@ -29,6 +31,8 @@ namespace GiveOrTake.BackEnd
         {
             // Add framework services.
             services.AddMvc();
+            services.AddDbContext<GiveOrTakeContext>(options =>
+            options.UseMySql(Configuration.GetConnectionString("Db")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,6 +42,11 @@ namespace GiveOrTake.BackEnd
             loggerFactory.AddDebug();
 
             app.UseMvc();
+
+            if (env.IsDevelopment())
+            {
+                app.UseBrowserLink();
+            }
         }
     }
 }
