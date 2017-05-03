@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GiveOrTake.BackEnd.Models
+namespace GiveOrTake.Models
 {
     public partial class Transaction
     {
