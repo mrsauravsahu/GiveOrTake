@@ -12,6 +12,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiveOrTake.Models", "GiveOrTake.Models\GiveOrTake.Models.csproj", "{1C7C8DC0-E38F-4D92-B05C-19E86F67D001}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BackEnd", "BackEnd", "{1505E265-CD54-4369-82CA-DB2737EF185F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MySQL", "MySQL", "{42D61D93-FCCA-4836-A81C-D7B448875168}"
+	ProjectSection(SolutionItems) = preProject
+		GiveOrTake.Db\Definition.sql = GiveOrTake.Db\Definition.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,5 +36,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{412FD62B-60B6-4FDE-9F17-F9CAF6755B4F} = {1505E265-CD54-4369-82CA-DB2737EF185F}
+		{1C7C8DC0-E38F-4D92-B05C-19E86F67D001} = {1505E265-CD54-4369-82CA-DB2737EF185F}
 	EndGlobalSection
 EndGlobal

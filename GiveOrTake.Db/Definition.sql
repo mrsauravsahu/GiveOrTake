@@ -8,14 +8,16 @@ CREATE TABLE `User` (
   `UserName` VARCHAR(255) NOT NULL UNIQUE,
   `Password` TEXT NOT NULL,
   `Phone` VARCHAR(15) NOT NULL,
-  PRIMARY KEY (`UserId`)) ;
+  PRIMARY KEY (`UserId`)) 
+  ENGINE=INNODB;
   
 CREATE TABLE `Item` (
   `ItemId` INT NOT NULL AUTO_INCREMENT,
   `ItemName` VARCHAR(255) NOT NULL,
   `UserId` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`ItemId`),
-  FOREIGN KEY (`UserId`) REFERENCES `User`(`UserId`));
+  FOREIGN KEY (`UserId`) REFERENCES `User`(`UserId`))
+  ENGINE=INNODB;
 
 CREATE TABLE `Transaction` (
   `TransactionId` INT NOT NULL PRIMARY KEY,
@@ -26,4 +28,5 @@ CREATE TABLE `Transaction` (
   `UserId` INT UNSIGNED NOT NULL,
   `ItemId` INT NOT NULL,
    FOREIGN KEY (`UserId`) REFERENCES `User`(`UserId`),
-   FOREIGN KEY (`ItemId`)  REFERENCES `Item`(`ItemId`)) ;
+   FOREIGN KEY (`ItemId`)  REFERENCES `Item`(`ItemId`))
+   ENGINE=INNODB;

@@ -1,7 +1,6 @@
-﻿using System;
+﻿using GiveOrTake.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using GiveOrTake.Models;
 
 namespace GiveOrTake.BackEnd.Models
 {
@@ -11,11 +10,7 @@ namespace GiveOrTake.BackEnd.Models
         public virtual DbSet<Transaction> Transaction { get; set; }
         public virtual DbSet<User> User { get; set; }
 
-        public GiveOrTakeContext(DbContextOptions<GiveOrTakeContext> options)
-            : base(options)
-        {
-            //Database.OpenConnection();
-        }
+        public GiveOrTakeContext(DbContextOptions<GiveOrTakeContext> options) : base(options) { }
 
         public async override void Dispose()
         {
@@ -26,6 +21,7 @@ namespace GiveOrTake.BackEnd.Models
         protected async override void OnModelCreating(ModelBuilder modelBuilder)
         {
             await Database.OpenConnectionAsync();
+
             modelBuilder.Entity<Item>(entity =>
             {
                 entity.ToTable("item");
@@ -42,7 +38,7 @@ namespace GiveOrTake.BackEnd.Models
                 entity.Property(e => e.UserId).HasColumnType("int(10) unsigned");
 
                 entity.HasOne(d => d.User)
-                    .WithMany(p => p.Items)
+                    .WithMany(p => p.Item)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("item_ibfk_1");
@@ -79,7 +75,7 @@ namespace GiveOrTake.BackEnd.Models
                     .HasConstraintName("transaction_ibfk_2");
 
                 entity.HasOne(d => d.User)
-                    .WithMany(p => p.Transactions)
+                    .WithMany(p => p.Transaction)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("transaction_ibfk_1");

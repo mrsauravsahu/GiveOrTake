@@ -6,8 +6,8 @@ namespace GiveOrTake.Models
     {
         public User()
         {
-            Items = new HashSet<Item>();
-            Transactions = new HashSet<Transaction>();
+            Item = new HashSet<Item>();
+            Transaction = new HashSet<Transaction>();
         }
 
         public int UserId { get; set; }
@@ -15,7 +15,7 @@ namespace GiveOrTake.Models
         public string Phone { get; set; }
         public string UserName { get; set; }
 
-        public virtual ICollection<Item> Items { get; set; }
-        public virtual ICollection<Transaction> Transactions { get; set; }
+        public virtual ICollection<Item> Item { get; set; }
+        public virtual ICollection<Transaction> Transaction { get; set; }
     }
 }
