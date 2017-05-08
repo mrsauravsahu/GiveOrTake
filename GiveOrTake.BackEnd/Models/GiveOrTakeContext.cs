@@ -1,4 +1,4 @@
-﻿using GiveOrTake.Models;
+﻿using GiveOrTake.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GiveOrTake.Models
+namespace GiveOrTake.Database
 {
     public partial class Transaction
     {

@@ -1,15 +1,19 @@
 ﻿using GiveOrTake.BackEnd.Helpers;
 using GiveOrTake.BackEnd.Services;
-using GiveOrTake.Models;
+using GiveOrTake.Database;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using GiveOrTake.BackEnd.Models;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Principal;
 
 namespace GiveOrTake.BackEnd.Controllers
 {
@@ -20,17 +24,26 @@ namespace GiveOrTake.BackEnd.Controllers
         private readonly ILogger logger;
         private readonly JsonSerializerSettings serializerSettings;
         private readonly DatabaseService dbService;
+        private readonly ClientStoreService clientStore;
+        private readonly GiveOrTakeContext dbContext;
+        private readonly PasswordHasher<User> passwordHasher;
 
         public LoginController(
             IOptions<JwtIssuerOptions> jwtOptions,
             ILoggerFactory loggerFactory,
-            DatabaseService dbService)
+            DatabaseService dbService,
+            ClientStoreService clientStore,
+            GiveOrTakeContext dbContext,
+            PasswordHasher<User> passwordHasher)
         {
             this.jwtOptions = jwtOptions.Value;
             ThrowIfInvalidOptions(this.jwtOptions);
             logger = loggerFactory.CreateLogger<LoginController>();
             serializerSettings = new JsonSerializerSettings { Formatting = Formatting.Indented };
             this.dbService = dbService;
+            this.clientStore = clientStore;
+            this.dbContext = dbContext;
+            this.passwordHasher = passwordHasher;
         }
 
 
@@ -38,7 +51,31 @@ namespace GiveOrTake.BackEnd.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Post([FromBody] User user)
         {
-            var identity = await dbService.GetClaimsIdentity(user);
+            Task<ClaimsIdentity> getClaimsIdentity()
+            {
+                //Check username, password against DB Context
+                var matchedUser = (from u in dbContext.User
+                                   where u.UserName == user.UserName
+                                   select u).FirstOrDefault();
+
+                var isUserValid = (matchedUser != null) ?
+                    (this.passwordHasher.VerifyHashedPassword(
+                        matchedUser,
+                        matchedUser.Password,
+                        user.Password) == PasswordVerificationResult.Success) : false;
+
+                if (isUserValid)
+                {
+                    return Task.FromResult(new ClaimsIdentity(
+                      new GenericIdentity(user.UserName, "Token"),
+                      new[] { new Claim(nameof(User), user.UserName) }));
+                }
+
+                // Credentials are invalid, or account doesn't exist
+                return Task.FromResult<ClaimsIdentity>(null);
+            }
+
+            var identity = await getClaimsIdentity();
             if (identity == null)
             {
                 logger.LogInformation($"Invalid username ({user.UserName}) or password ({user.Password})");
@@ -70,6 +107,29 @@ namespace GiveOrTake.BackEnd.Controllers
                 expires_in = (int)jwtOptions.ValidFor.TotalSeconds
             };
 
+            Task<User> getUser(string userName, string password)
+            {
+                //TODO: Implement hashed passwords
+                var matchedUser = (from u in dbContext.User
+                                   where u.UserName == userName
+                                   select u).FirstOrDefault();
+                var isUserValid = (matchedUser != null) ?
+                    (this.passwordHasher.VerifyHashedPassword(
+                        matchedUser,
+                        matchedUser.Password,
+                        user.Password) == PasswordVerificationResult.Success) : false;
+
+                if (isUserValid) { return Task.FromResult(matchedUser); }
+                else return null;
+            }
+
+            var p = await getUser(user.UserName, user.Password);
+            var client = new Client
+            {
+                UserId = p.UserId,
+                JwtToken = encodedJwt,
+            };
+            await this.clientStore.AddClient(client);
             return new OkObjectResult(response);
         }
 

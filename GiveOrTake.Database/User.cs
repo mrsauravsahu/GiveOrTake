@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GiveOrTake.Models
+namespace GiveOrTake.Database
 {
     public partial class User
     {

@@ -11,8 +11,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using GiveOrTake.BackEnd.Helpers;
 using GiveOrTake.BackEnd.Services;
-using GiveOrTake.Models;
+using GiveOrTake.Database;
 using System;
+using Microsoft.AspNetCore.Identity;
 
 namespace GiveOrTake.BackEnd
 {
@@ -69,10 +70,13 @@ namespace GiveOrTake.BackEnd
                 config.Filters.Add(new AuthorizeFilter(policy));
             });
 
+
             services.AddDbContext<GiveOrTakeContext>(options =>
             options.UseMySql(Configuration.GetConnectionString("Db")));
 
             services.AddSingleton(typeof(DatabaseService));
+            services.AddSingleton(typeof(PasswordHasher<User>));
+            services.AddSingleton(typeof(ClientStoreService));
             services.AddSwaggerGen();
         }
 
