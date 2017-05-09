@@ -1,4 +1,4 @@
-﻿using GiveOrTake.BackEnd.Services;
+﻿using GiveOrTake.BackEnd.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -8,20 +8,23 @@ namespace GiveOrTake.BackEnd.Controllers
     [Route("api/[controller]")]
     public class UserController
     {
-        private readonly DatabaseService dbService;
-        public UserController(DatabaseService dbService)
-        { this.dbService = dbService; }
+        private readonly GiveOrTakeContext dbContext;
+        public UserController(GiveOrTakeContext dbContext)
+        { this.dbContext = dbContext; }
 
         /// <summary>
         /// User names with mathcing prefix.
         /// </summary>
         /// <param name="prefix">The prefix.</param>
         /// <returns>Returns a list of users whose username starts with the specified prefix.</returns>
-        [HttpPost]
-        public ObjectResult Post([FromQuery]string prefix)
+        [HttpGet]
+        public ObjectResult Get([FromQuery]string prefix)
         {
-            return new ObjectResult(dbService.GetUsersNameStartingWith(prefix)
-                .Select(p => new { Name = p.UserName, Phone = p.Phone }));
+            prefix = prefix.ToUpper();
+            return new ObjectResult(
+                from u in dbContext.User
+                where u.UserName.ToUpper().StartsWith(prefix)
+                select new { Name = u.UserName, Phone = u.Phone });
         }
     }
 }

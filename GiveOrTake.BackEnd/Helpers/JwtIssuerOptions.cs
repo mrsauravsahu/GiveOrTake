@@ -13,8 +13,6 @@ namespace GiveOrTake.BackEnd.Helpers
         public DateTime IssuedAt => DateTime.UtcNow;
         public TimeSpan ValidFor { get; set; } = TimeSpan.FromMinutes(5);
         public DateTime Expiration => IssuedAt.Add(ValidFor);
-        public Func<Task<string>> JtiGenerator =>
-            () => Task.FromResult(Guid.NewGuid().ToString());
         public SigningCredentials SigningCredentials { get; set; }
     }
 }
