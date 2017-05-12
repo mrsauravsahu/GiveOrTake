@@ -1,10 +1,13 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
+﻿<Project Sdk="Microsoft.NET.Sdk.Web" ToolsVersion="15.0">
   <PropertyGroup>
     <TargetFramework>netcoreapp1.0</TargetFramework>
     <UserSecretsId>06ed2f1b-81b9-4897-8247-00b1d5c5c273</UserSecretsId>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
-
   <ItemGroup>
     <Folder Include="Services\" />
     <Folder Include="wwwroot\" />
@@ -33,5 +36,4 @@
   <ItemGroup>
     <ProjectReference Include="..\GiveOrTake.Database\GiveOrTake.Database.csproj" />
   </ItemGroup>
-
 </Project>

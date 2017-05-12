@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using GiveOrTake.BackEnd.Helpers;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,7 +10,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using GiveOrTake.BackEnd.Helpers;
 using GiveOrTake.Database;
 using System;
 using Microsoft.AspNetCore.Identity;
@@ -42,6 +42,9 @@ namespace GiveOrTake.BackEnd
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOptions();
+
+            services.Configure<FacebookOptions>(Configuration.GetSection("Authentication:Facebook"));
+
             services.AddAuthorization(options =>
             {
                 options.AddPolicy(nameof(User),
