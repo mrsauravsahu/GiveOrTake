@@ -4,29 +4,43 @@ CREATE SCHEMA IF NOT EXISTS `GiveOrTake` DEFAULT CHARACTER SET utf8 ;
 USE `GiveOrTake` ;
 
 CREATE TABLE `User` (
-  `UserId` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `UserName` VARCHAR(255) NOT NULL UNIQUE,
-  `Password` TEXT NOT NULL,
-  `Phone` VARCHAR(15) NOT NULL,
-  PRIMARY KEY (`UserId`)) 
+  `Id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `FirstName` TEXT NOT NULL,
+  `MiddleName` TEXT,
+  `LastName` TEXT NOT NULL,
+  `Email` TEXT NOT NULL)
   ENGINE=INNODB;
   
 CREATE TABLE `Item` (
-  `ItemId` INT NOT NULL AUTO_INCREMENT,
-  `ItemName` VARCHAR(255) NOT NULL,
+  `Id` INT NOT NULL AUTO_INCREMENT,
+  `ItemName` TEXT NOT NULL,
   `UserId` INT UNSIGNED NOT NULL,
-  PRIMARY KEY (`ItemId`),
-  FOREIGN KEY (`UserId`) REFERENCES `User`(`UserId`))
+  PRIMARY KEY (`Id`),
+  FOREIGN KEY (`UserId`) REFERENCES `User`(`Id`))
   ENGINE=INNODB;
 
 CREATE TABLE `Transaction` (
-  `TransactionId` INT NOT NULL PRIMARY KEY,
-  `ShortDescription` TEXT,
+  `Id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `Description` TEXT,
   `OccurenceDate` DATETIME NOT NULL,
-  `ExpectedReturnDate` DATETIME NOT NULL,
+  `ExpectedReturnDate` DATETIME,
   `TransactionType` TINYINT(1) NOT NULL,
   `UserId` INT UNSIGNED NOT NULL,
+  `OtherUserId` INT UNSIGNED NOT NULL,
   `ItemId` INT NOT NULL,
-   FOREIGN KEY (`UserId`) REFERENCES `User`(`UserId`),
-   FOREIGN KEY (`ItemId`)  REFERENCES `Item`(`ItemId`))
+   FOREIGN KEY (`UserId`) REFERENCES `User`(`Id`),
+   FOREIGN KEY (`ItemId`)  REFERENCES `Item`(`Id`))
+   ENGINE=INNODB;
+
+CREATE TABLE `NormalUser` (
+  `Id` INT UNSIGNED NOT NULL,
+  `Password` TEXT NOT NULL,
+   PRIMARY KEY(`Id`),
+   FOREIGN KEY (`Id`) REFERENCES `User`(`Id`))
+   ENGINE=INNODB;
+
+CREATE TABLE `RootUser` (
+  `Id` INT UNSIGNED NOT NULL PRIMARY KEY,
+  `Password` TEXT NOT NULL,
+   FOREIGN KEY (`Id`) REFERENCES `User`(`Id`))
    ENGINE=INNODB;

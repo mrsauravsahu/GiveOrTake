@@ -9,7 +9,7 @@ namespace GiveOrTake.Database
             Transaction = new HashSet<Transaction>();
         }
 
-        public int ItemId { get; set; }
+        public int Id { get; set; }
         public string ItemName { get; set; }
         public int UserId { get; set; }
 

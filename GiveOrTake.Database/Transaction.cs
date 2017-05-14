@@ -4,11 +4,12 @@ namespace GiveOrTake.Database
 {
     public partial class Transaction
     {
-        public int TransactionId { get; set; }
-        public DateTime ExpectedReturnDate { get; set; }
+        public int Id { get; set; }
+        public string Description { get; set; }
+        public DateTime? ExpectedReturnDate { get; set; }
         public int ItemId { get; set; }
         public DateTime OccurenceDate { get; set; }
-        public string ShortDescription { get; set; }
+        public int OtherUserId { get; set; }
         public bool TransactionType { get; set; }
         public int UserId { get; set; }
 

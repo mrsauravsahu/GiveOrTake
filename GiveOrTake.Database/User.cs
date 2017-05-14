@@ -6,16 +6,29 @@ namespace GiveOrTake.Database
     {
         public User()
         {
-            Item = new HashSet<Item>();
-            Transaction = new HashSet<Transaction>();
+            Items = new HashSet<Item>();
+            Transactions = new HashSet<Transaction>();
         }
 
-        public int UserId { get; set; }
-        public string Password { get; set; }
-        public string Phone { get; set; }
-        public string UserName { get; set; }
+        public int Id { get; set; }
+        public string Email { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string MiddleName { get; set; }
 
-        public virtual ICollection<Item> Item { get; set; }
-        public virtual ICollection<Transaction> Transaction { get; set; }
+        public virtual ICollection<Item> Items { get; set; }
+        public virtual NormalUser NormalUser { get; set; }
+        public virtual RootUser RootUser { get; set; }
+        public virtual ICollection<Transaction> Transactions { get; set; }
+
+        public string Name
+        {
+            get
+            {
+                if (MiddleName == string.Empty)
+                    return $"{FirstName} {LastName}";
+                return $"{FirstName} {MiddleName} {LastName}";
+            }
+        }
     }
 }
