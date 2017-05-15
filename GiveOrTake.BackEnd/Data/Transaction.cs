@@ -17,6 +17,8 @@ namespace GiveOrTake.BackEnd.Data
         [Required]
         public DateTime OccurenceDate { get; set; }
         public string OtherUserId { get; set; }
+
+        //false Meaning Give, true meaning take
         [Required]
         public bool TransactionType { get; set; }
 
