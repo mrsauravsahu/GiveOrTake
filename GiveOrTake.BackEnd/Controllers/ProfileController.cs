@@ -1,11 +1,7 @@
-﻿using GiveOrTake.BackEnd.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using GiveOrTake.BackEnd.Data;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace GiveOrTake.BackEnd.Controllers
 {
@@ -20,19 +16,25 @@ namespace GiveOrTake.BackEnd.Controllers
         [HttpGet]
         public ObjectResult Get()
         {
+            //Read Access Token
             var jwtToken = Request.Headers["Authorization"].FirstOrDefault().Split(' ')[1];
-            var id = int.Parse(new JwtSecurityTokenHandler().ReadJwtToken(jwtToken).Id);
+            //Retrive id from Access Token
+            var id = new JwtSecurityTokenHandler().ReadJwtToken(jwtToken).Id;
 
-            return new ObjectResult((from u in dbContext.User
-                                     where u.UserId == id
-                                     select new
-                                     {
-                                         UserId = u.UserId,
-                                         UserName = u.UserName,
-                                         Phone = u.Phone,
-                                         Item = u.Item,
-                                         Transaction = u.Transaction
-                                     }).FirstOrDefault());
+            var userProfile = (from u in dbContext.Users
+                               where u.Id == id
+                               select new
+                               {
+                                   Name = u.Name,
+                                   FirsName = u.FirstName,
+                                   MiddleName = u.MiddleName,
+                                   LastName = u.LastName,
+                                   Email = u.Email,
+                                   Items = u.Items,
+                                   Transactions = u.Transactions,
+                               }).FirstOrDefault();
+
+            return new ObjectResult(userProfile);
         }
     }
 }

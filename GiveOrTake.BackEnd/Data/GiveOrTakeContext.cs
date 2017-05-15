@@ -1,5 +1,4 @@
-﻿using GiveOrTake.Database;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace GiveOrTake.BackEnd.Data
 {
