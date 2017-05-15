@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GiveOrTake.Database
+namespace GiveOrTake.BackEnd.Data
 {
     public partial class RootAccess
     {
