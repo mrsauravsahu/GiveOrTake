@@ -1,6 +1,5 @@
 ﻿using GiveOrTake.BackEnd.Helpers;
 using GiveOrTake.BackEnd.Data;
-using GiveOrTake.Database;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -8,10 +7,8 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using GiveOrTake.BackEnd.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Principal;
 

@@ -1,5 +1,4 @@
-﻿using GiveOrTake.Database;
-using GiveOrTake.BackEnd.Data;
+﻿using GiveOrTake.BackEnd.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -66,7 +65,6 @@ namespace GiveOrTake.BackEnd.Controllers
 
                 return new CreatedAtRouteResult(this, new
                 {
-                    Id = result.Id,
                     Name = result.Name,
                     Email = result.Email
                 });
