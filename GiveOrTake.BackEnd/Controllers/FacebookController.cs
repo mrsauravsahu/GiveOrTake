@@ -6,8 +6,10 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using GiveOrTake.BackEnd.Data;
 
 namespace GiveOrTake.BackEnd.Controllers
 {
@@ -15,10 +17,16 @@ namespace GiveOrTake.BackEnd.Controllers
     public class FacebookController : Controller
     {
         private readonly FacebookOptions facebookOptions;
+        private readonly LoginHelper loginHelper;
+        private readonly GiveOrTakeContext dbContext;
 
-        public FacebookController(IOptions<FacebookOptions> facebookOptions)
+        public FacebookController(GiveOrTakeContext dbContext,
+            IOptions<FacebookOptions> facebookOptions,
+            LoginHelper loginHelper)
         {
             this.facebookOptions = facebookOptions.Value;
+            this.loginHelper = loginHelper;
+            this.dbContext = dbContext;
         }
 
         [HttpPost]
@@ -41,8 +49,20 @@ namespace GiveOrTake.BackEnd.Controllers
                 data["access_token"]);
 
                 var response = await client.GetAsync(url);
+                var result = await response.Content.ReadAsStringAsync();
 
-                return new ObjectResult(await response.Content.ReadAsStringAsync());
+                //TODO: Check token authenticity.
+
+                var newUser = await loginHelper.FacebookLogin(auth.AccessToken);
+                var isRegistering = (from u in dbContext.Users
+                                     where u.Id == newUser.Id
+                                     select u).FirstOrDefault() == null;
+
+                //Register
+                if (isRegistering)
+                    await dbContext.Users.AddAsync(newUser);
+
+                return new ObjectResult(await loginHelper.GenerateAuthToken(newUser));
             }
         }
     }

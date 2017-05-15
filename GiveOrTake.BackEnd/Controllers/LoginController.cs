@@ -11,6 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Principal;
+using System.Threading.Tasks;
 
 namespace GiveOrTake.BackEnd.Controllers
 {
@@ -22,109 +23,36 @@ namespace GiveOrTake.BackEnd.Controllers
         private readonly JsonSerializerSettings serializerSettings;
         private readonly GiveOrTakeContext dbContext;
         private readonly PasswordHasher<User> passwordHasher;
+        private readonly LoginHelper loginHelper;
 
         public LoginController(
             IOptions<JwtIssuerOptions> jwtOptions,
             ILoggerFactory loggerFactory,
             GiveOrTakeContext dbContext,
-            PasswordHasher<User> passwordHasher)
+            PasswordHasher<User> passwordHasher,
+            LoginHelper loginHelper)
         {
             this.jwtOptions = jwtOptions.Value;
-            ThrowIfInvalidOptions(this.jwtOptions);
             logger = loggerFactory.CreateLogger<LoginController>();
             serializerSettings = new JsonSerializerSettings { Formatting = Formatting.Indented };
             this.dbContext = dbContext;
             this.passwordHasher = passwordHasher;
+            this.loginHelper = loginHelper;
         }
 
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult Post([FromBody] dynamic user)
+        public async Task<IActionResult> Post([FromBody] dynamic user)
         {
-            string UserName = user.Name;
-            string Password = user.Password;
+            string userName = user.Name;
+            string email = user.Email;
+            string password = user.Password;
 
-            //Check username, password against DB Context
-            var matchedUser = (from u in dbContext.Users
-                               where u.Name == UserName
-                               select u).FirstOrDefault();
+            var (token, success) = await this.loginHelper.Login(userName, email, password);
 
-            if (matchedUser == null)
-            {
-                logger.LogInformation($"Non existent user ({UserName}: {Password})");
-                return new BadRequestResult();
-            }
-
-            var root = (from p in dbContext.RootAccess
-                        where p.Id == matchedUser.Id
-                        select p).FirstOrDefault();
-
-            if (root == null)
-            {
-                logger.LogInformation($"User without Root Access tried to log in. ({UserName}: {Password})");
-                return new BadRequestResult();
-            }
-
-            bool validCredentials = (this.passwordHasher.VerifyHashedPassword(
-                matchedUser,
-                root.Password,
-                Password) == PasswordVerificationResult.Success);
-
-            ClaimsIdentity identity;
-            if (validCredentials)
-            {
-                identity = new ClaimsIdentity(
-                  new GenericIdentity(UserName, "Token"),
-                  new[] { new Claim(nameof(User), UserName) });
-            }
-            else
-            {
-                // Credentials are invalid, or account doesn't exist
-                logger.LogInformation($"Invalid password ({Password}) for ({UserName})");
-                return new BadRequestResult();
-            }
-
-            var claims = new[]
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, matchedUser.Name),
-                new Claim(JwtRegisteredClaimNames.Jti, matchedUser.Id),
-                new Claim(JwtRegisteredClaimNames.Iat,
-                    ToUnixEpochDate(jwtOptions.IssuedAt).ToString(),
-                    ClaimValueTypes.Integer64),
-                identity.FindFirst(nameof(User))
-            };
-
-            // Create the JWT security token and encode it.
-            var jwt = new JwtSecurityToken(
-                issuer: jwtOptions.Issuer,
-                audience: jwtOptions.Audience,
-                claims: claims,
-                notBefore: jwtOptions.NotBefore,
-                expires: jwtOptions.Expiration,
-                signingCredentials: jwtOptions.SigningCredentials);
-
-            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-            var response = new
-            {
-                AccessToken = encodedJwt,
-                ExpiresIn = (int)jwtOptions.ValidFor.TotalSeconds
-            };
-            return new OkObjectResult(response);
+            if (success)
+                return new OkObjectResult(token);
+            return new BadRequestResult();
         }
-
-        private static void ThrowIfInvalidOptions(JwtIssuerOptions options)
-        {
-            if (options == null) throw new ArgumentNullException(nameof(options));
-            if (options.ValidFor <= TimeSpan.Zero)
-            { throw new ArgumentException("Must be a non-zero TimeSpan.", nameof(JwtIssuerOptions.ValidFor)); }
-
-            if (options.SigningCredentials == null)
-            { throw new ArgumentNullException(nameof(JwtIssuerOptions.SigningCredentials)); }
-        }
-
-        private static long ToUnixEpochDate(DateTime date)
-          => (long)Math.Round((date.ToUniversalTime() -
-                               new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero))
-                              .TotalSeconds);
     }
 }

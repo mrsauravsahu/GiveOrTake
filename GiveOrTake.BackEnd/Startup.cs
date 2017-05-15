@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using System;
 using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json.Serialization;
 
 namespace GiveOrTake.BackEnd
 {
@@ -69,13 +70,15 @@ namespace GiveOrTake.BackEnd
                     .Build();
 
                 config.Filters.Add(new AuthorizeFilter(policy));
-            });
+            })
+            .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
 
             services.AddDbContext<GiveOrTakeContext>(options =>
             options.UseMySql(Configuration.GetConnectionString("Db")));
 
             services.AddSingleton(typeof(PasswordHasher<User>));
+            services.AddSingleton(typeof(LoginHelper));
             services.AddSwaggerGen();
         }
 

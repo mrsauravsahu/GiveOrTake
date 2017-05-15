@@ -25,8 +25,9 @@ namespace GiveOrTake.BackEnd.Controllers
                                where u.Id == id
                                select new
                                {
+                                   Id = u.Id,
                                    Name = u.Name,
-                                   FirsName = u.FirstName,
+                                   FirstName = u.FirstName,
                                    MiddleName = u.MiddleName,
                                    LastName = u.LastName,
                                    Email = u.Email,
