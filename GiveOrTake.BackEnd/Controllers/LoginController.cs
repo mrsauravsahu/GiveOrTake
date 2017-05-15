@@ -1,4 +1,5 @@
 ﻿using GiveOrTake.BackEnd.Helpers;
+using GiveOrTake.BackEnd.Data;
 using GiveOrTake.Database;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -41,37 +42,55 @@ namespace GiveOrTake.BackEnd.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult Post([FromBody] User user)
+        public IActionResult Post([FromBody] dynamic user)
         {
+            string UserName = user.Name;
+            string Password = user.Password;
+
             //Check username, password against DB Context
-            var matchedUser = (from u in dbContext.User
-                               where u.UserName == user.UserName
+            var matchedUser = (from u in dbContext.Users
+                               where u.Name == UserName
                                select u).FirstOrDefault();
 
-            var isUserValid = (matchedUser != null) ?
-                (this.passwordHasher.VerifyHashedPassword(
-                    matchedUser,
-                    matchedUser.Password,
-                    user.Password) == PasswordVerificationResult.Success) : false;
+            if (matchedUser == null)
+            {
+                logger.LogInformation($"Non existent user ({UserName}: {Password})");
+                return new BadRequestResult();
+            }
+
+            var root = (from p in dbContext.RootAccess
+                        where p.Id == matchedUser.Id
+                        select p).FirstOrDefault();
+
+            if (root == null)
+            {
+                logger.LogInformation($"User without Root Access tried to log in. ({UserName}: {Password})");
+                return new BadRequestResult();
+            }
+
+            bool validCredentials = (this.passwordHasher.VerifyHashedPassword(
+                matchedUser,
+                root.Password,
+                Password) == PasswordVerificationResult.Success);
 
             ClaimsIdentity identity;
-            if (isUserValid)
+            if (validCredentials)
             {
                 identity = new ClaimsIdentity(
-                  new GenericIdentity(user.UserName, "Token"),
-                  new[] { new Claim(nameof(User), user.UserName) });
+                  new GenericIdentity(UserName, "Token"),
+                  new[] { new Claim(nameof(User), UserName) });
             }
             else
             {
                 // Credentials are invalid, or account doesn't exist
-                logger.LogInformation($"Invalid username ({user.UserName}) or password ({user.Password})");
+                logger.LogInformation($"Invalid password ({Password}) for ({UserName})");
                 return new BadRequestResult();
             }
 
             var claims = new[]
-                        {
-                new Claim(JwtRegisteredClaimNames.Sub, matchedUser.UserName),
-                new Claim(JwtRegisteredClaimNames.Jti, matchedUser.UserId.ToString()),
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, matchedUser.Name),
+                new Claim(JwtRegisteredClaimNames.Jti, matchedUser.Id),
                 new Claim(JwtRegisteredClaimNames.Iat,
                     ToUnixEpochDate(jwtOptions.IssuedAt).ToString(),
                     ClaimValueTypes.Integer64),
@@ -90,10 +109,9 @@ namespace GiveOrTake.BackEnd.Controllers
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
             var response = new
             {
-                access_token = encodedJwt,
-                expires_in = (int)jwtOptions.ValidFor.TotalSeconds
+                AccessToken = encodedJwt,
+                ExpiresIn = (int)jwtOptions.ValidFor.TotalSeconds
             };
-
             return new OkObjectResult(response);
         }
 

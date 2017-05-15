@@ -11,7 +11,7 @@ namespace GiveOrTake.BackEnd.Helpers
         public string Audience { get; set; }
         public DateTime NotBefore => DateTime.UtcNow;
         public DateTime IssuedAt => DateTime.UtcNow;
-        public TimeSpan ValidFor { get; set; } = TimeSpan.FromMinutes(5);
+        public TimeSpan ValidFor { get; set; } = TimeSpan.FromDays(30);
         public DateTime Expiration => IssuedAt.Add(ValidFor);
         public SigningCredentials SigningCredentials { get; set; }
     }

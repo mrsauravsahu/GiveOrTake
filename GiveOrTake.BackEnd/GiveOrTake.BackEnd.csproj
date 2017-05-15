@@ -33,7 +33,4 @@
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.0" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GiveOrTake.Database\GiveOrTake.Database.csproj" />
-  </ItemGroup>
 </Project>

@@ -8,6 +8,6 @@ namespace GiveOrTake.BackEnd.Models
     public class Token
     {
         public string AccessToken { get; set; }
-        public long ExpriesIn { get; set; }
+        public long ExpiresIn { get; set; }
     }
 }
