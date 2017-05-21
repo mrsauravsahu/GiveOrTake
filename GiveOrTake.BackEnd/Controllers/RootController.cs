@@ -29,7 +29,6 @@ namespace GiveOrTake.BackEnd.Controllers
                                         UserId = u.UserId,
                                         Name = u.Name,
                                         Email = u.Email,
-                                        Password = u.RootAccess != null ? u.RootAccess.Password : string.Empty,
                                         UserType = u.RootAccess == null ? "Normal" : "Root"
                                     });
         }
