@@ -6,6 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System;
+using GiveOrTake.BackEnd.Helpers;
+using Microsoft.Extensions.Options;
+using GiveOrTake.Database;
 
 namespace GiveOrTake.BackEnd.Controllers
 {
@@ -14,12 +17,15 @@ namespace GiveOrTake.BackEnd.Controllers
     {
         private GiveOrTakeContext dbContext;
         private readonly PasswordHasher<User> passwordHasher;
+        private readonly RootUserOptions rootUserOptions;
 
         public RegisterController(GiveOrTakeContext dbContext,
+            IOptions<RootUserOptions> rootUserOptions,
             PasswordHasher<User> passwordHasher)
         {
             this.dbContext = dbContext;
             this.passwordHasher = passwordHasher;
+            this.rootUserOptions = rootUserOptions.Value;
         }
 
         [HttpPost]
@@ -31,6 +37,10 @@ namespace GiveOrTake.BackEnd.Controllers
             string lastName = user.LastName.ToString();
             string password = user.Password.ToString();
             string email = user.Email.ToString();
+            string masterPassword = user.MasterPassword.ToString();
+
+            if (masterPassword != rootUserOptions.MasterPassword)
+                return new BadRequestResult();
 
             if (string.IsNullOrWhiteSpace(firstName)
                 || string.IsNullOrWhiteSpace(lastName)
@@ -39,30 +49,22 @@ namespace GiveOrTake.BackEnd.Controllers
                 return new BadRequestResult();
             else
             {
-                var guid = new Guid().ToString();
+                var guid = Guid.NewGuid().ToString();
                 var newUser = new User
                 {
-                    Id = guid,
+                    UserId = guid,
                     FirstName = firstName,
-                    MiddleName = (middleName ?? string.Empty),
+                    MiddleName = middleName != null ? middleName.Trim() : string.Empty,
                     LastName = lastName,
                     Email = email,
                     Items = new List<Item>(),
-                    Transactions = new List<Transaction>(),
-                    RootAccess = new RootAccess
-                    {
-                        Id = guid,
-                        Password = string.Empty
-                    }
+                    Transactions = new List<Transaction>()
                 };
+                newUser.RootAccess = new RootAccess
+                { Password = passwordHasher.HashPassword(newUser, password) };
 
                 var result = (await dbContext.Users.AddAsync(newUser)).Entity;
-
-                result.RootAccess.Password = passwordHasher.HashPassword(newUser, password);
-                result.RootAccess.User = result;
-
                 await dbContext.SaveChangesAsync();
-
                 return new CreatedAtRouteResult(this, new
                 {
                     Name = result.Name,

@@ -12,6 +12,7 @@ using GiveOrTake.BackEnd.Models;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Principal;
+using GiveOrTake.Database;
 
 namespace GiveOrTake.BackEnd.Helpers
 {
@@ -56,7 +57,7 @@ namespace GiveOrTake.BackEnd.Helpers
             var data = await facebookDetails(accessToken);
             return new User
             {
-                Id = data["id"],
+                UserId = data["id"],
                 FirstName = data["first_name"],
                 MiddleName = data.ContainsKey("middle_name") ? data["middle_name"] : string.Empty,
                 LastName = data["last_name"],
@@ -83,7 +84,7 @@ namespace GiveOrTake.BackEnd.Helpers
                 var claims = new[]
                 {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Name),
-                new Claim(JwtRegisteredClaimNames.Jti, user.Id),
+                new Claim(JwtRegisteredClaimNames.Jti, user.UserId),
                 new Claim(JwtRegisteredClaimNames.Iat,
                     ToUnixEpochDate(jwtOptions.IssuedAt).ToString(),
                     ClaimValueTypes.Integer64),
@@ -118,7 +119,7 @@ namespace GiveOrTake.BackEnd.Helpers
             if (matchedUser == null) { return (null, false); }
 
             var root = (from p in dbContext.RootAccess
-                        where p.Id == matchedUser.Id
+                        where p.UserId == matchedUser.UserId
                         select p).FirstOrDefault();
 
             if (root == null) { return (null, false); }

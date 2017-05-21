@@ -55,12 +55,15 @@ namespace GiveOrTake.BackEnd.Controllers
 
                 var newUser = await loginHelper.FacebookLogin(auth.AccessToken);
                 var isRegistering = (from u in dbContext.Users
-                                     where u.Id == newUser.Id
+                                     where u.UserId == newUser.UserId
                                      select u).FirstOrDefault() == null;
 
                 //Register
                 if (isRegistering)
+                {
                     await dbContext.Users.AddAsync(newUser);
+                    await dbContext.SaveChangesAsync();
+                }
 
                 return new ObjectResult(await loginHelper.GenerateAuthToken(newUser));
             }

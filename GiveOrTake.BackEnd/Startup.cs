@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using System;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json.Serialization;
+using GiveOrTake.Database;
 
 namespace GiveOrTake.BackEnd
 {
@@ -44,6 +45,7 @@ namespace GiveOrTake.BackEnd
             services.AddOptions();
 
             services.Configure<FacebookOptions>(Configuration.GetSection("Authentication:Facebook"));
+            services.Configure<RootUserOptions>(Configuration.GetSection("Authentication:Root"));
 
             services.AddAuthorization(options =>
             {
@@ -75,7 +77,7 @@ namespace GiveOrTake.BackEnd
 
 
             services.AddDbContext<GiveOrTakeContext>(options =>
-            options.UseMySql(Configuration.GetConnectionString("Db")));
+            options.UseMySql(Configuration.GetConnectionString("DatabaseConnectionString")));
 
             services.AddSingleton(typeof(PasswordHasher<User>));
             services.AddSingleton(typeof(LoginHelper));

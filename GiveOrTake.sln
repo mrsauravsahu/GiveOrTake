@@ -1,18 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BackEnd", "BackEnd", "{1505E265-CD54-4369-82CA-DB2737EF185F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MySQL", "MySQL", "{42D61D93-FCCA-4836-A81C-D7B448875168}"
-	ProjectSection(SolutionItems) = preProject
-		GiveOrTake.Db\Definition.sql = GiveOrTake.Db\Definition.sql
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{E9F5EC8A-5B72-4207-BF4F-AC9DEBD980F0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiveOrTake.BackEnd", "GiveOrTake.BackEnd\GiveOrTake.BackEnd.csproj", "{ACCACD78-5E21-4ABF-9240-F8E912181CEB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{18FF2C87-66A2-4967-B4F3-09DB179E914B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiveOrTake.Database", "GiveOrTake.Database\GiveOrTake.Database.csproj", "{FB17AF8D-7BF3-48DE-99DE-2D64DE2F16DF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrontEnd", "FrontEnd", "{A2F923CA-9574-4058-B87C-6E6D01471770}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,11 +41,28 @@ Global
 		{ACCACD78-5E21-4ABF-9240-F8E912181CEB}.Release|x64.Build.0 = Release|Any CPU
 		{ACCACD78-5E21-4ABF-9240-F8E912181CEB}.Release|x86.ActiveCfg = Release|Any CPU
 		{ACCACD78-5E21-4ABF-9240-F8E912181CEB}.Release|x86.Build.0 = Release|Any CPU
+		{FB17AF8D-7BF3-48DE-99DE-2D64DE2F16DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB17AF8D-7BF3-48DE-99DE-2D64DE2F16DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB17AF8D-7BF3-48DE-99DE-2D64DE2F16DF}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{FB17AF8D-7BF3-48DE-99DE-2D64DE2F16DF}.Debug|ARM.Build.0 = Debug|Any CPU
+		{FB17AF8D-7BF3-48DE-99DE-2D64DE2F16DF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FB17AF8D-7BF3-48DE-99DE-2D64DE2F16DF}.Debug|x64.Build.0 = Debug|Any CPU
+		{FB17AF8D-7BF3-48DE-99DE-2D64DE2F16DF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FB17AF8D-7BF3-48DE-99DE-2D64DE2F16DF}.Debug|x86.Build.0 = Debug|Any CPU
+		{FB17AF8D-7BF3-48DE-99DE-2D64DE2F16DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB17AF8D-7BF3-48DE-99DE-2D64DE2F16DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB17AF8D-7BF3-48DE-99DE-2D64DE2F16DF}.Release|ARM.ActiveCfg = Release|Any CPU
+		{FB17AF8D-7BF3-48DE-99DE-2D64DE2F16DF}.Release|ARM.Build.0 = Release|Any CPU
+		{FB17AF8D-7BF3-48DE-99DE-2D64DE2F16DF}.Release|x64.ActiveCfg = Release|Any CPU
+		{FB17AF8D-7BF3-48DE-99DE-2D64DE2F16DF}.Release|x64.Build.0 = Release|Any CPU
+		{FB17AF8D-7BF3-48DE-99DE-2D64DE2F16DF}.Release|x86.ActiveCfg = Release|Any CPU
+		{FB17AF8D-7BF3-48DE-99DE-2D64DE2F16DF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{ACCACD78-5E21-4ABF-9240-F8E912181CEB} = {1505E265-CD54-4369-82CA-DB2737EF185F}
+		{FB17AF8D-7BF3-48DE-99DE-2D64DE2F16DF} = {18FF2C87-66A2-4967-B4F3-09DB179E914B}
 	EndGlobalSection
 EndGlobal

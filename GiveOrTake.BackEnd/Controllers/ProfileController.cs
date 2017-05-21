@@ -22,10 +22,10 @@ namespace GiveOrTake.BackEnd.Controllers
             var id = new JwtSecurityTokenHandler().ReadJwtToken(jwtToken).Id;
 
             var userProfile = (from u in dbContext.Users
-                               where u.Id == id
+                               where u.UserId == id
                                select new
                                {
-                                   Id = u.Id,
+                                   UserId = u.UserId,
                                    Name = u.Name,
                                    FirstName = u.FirstName,
                                    MiddleName = u.MiddleName,

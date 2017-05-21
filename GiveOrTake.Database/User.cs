@@ -2,9 +2,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GiveOrTake.BackEnd.Data
+namespace GiveOrTake.Database
 {
-    public partial class User
+    [Table(nameof(User))]
+    public class User
     {
         public User()
         {
@@ -12,29 +13,27 @@ namespace GiveOrTake.BackEnd.Data
             Transactions = new HashSet<Transaction>();
         }
 
-        [Key]
-        public string Id { get; set; }
-        [Required]
+        public string UserId { get; set; }
         public string Email { get; set; }
-        [Required]
         public string FirstName { get; set; }
-        public string MiddleName { get; set; }
-        [Required]
         public string LastName { get; set; }
+        public string MiddleName { get; set; }
 
-        public virtual ICollection<Item> Items { get; set; }
-        public virtual RootAccess RootAccess { get; set; }
-        public virtual ICollection<Transaction> Transactions { get; set; }
+        public ICollection<Item> Items { get; set; }
+        public RootAccess RootAccess { get; set; }
+        public ICollection<Transaction> Transactions { get; set; }
 
         [NotMapped]
         public string Name
         {
             get
             {
+
                 if (MiddleName == string.Empty)
                     return $"{FirstName} {LastName}";
                 return $"{FirstName} {MiddleName} {LastName}";
             }
         }
+
     }
 }

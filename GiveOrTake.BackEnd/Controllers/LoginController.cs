@@ -12,6 +12,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Principal;
 using System.Threading.Tasks;
+using GiveOrTake.Database;
 
 namespace GiveOrTake.BackEnd.Controllers
 {

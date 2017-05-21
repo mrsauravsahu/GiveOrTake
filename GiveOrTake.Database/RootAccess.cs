@@ -1,13 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GiveOrTake.BackEnd.Data
+namespace GiveOrTake.Database
 {
-    public partial class RootAccess
+    public class RootAccess
     {
-        [Key, ForeignKey(nameof(User))]
-        public string Id { get; set; }
-        [Required]
+        public string UserId { get; set; }
         public string Password { get; set; }
 
         public virtual User User { get; set; }
