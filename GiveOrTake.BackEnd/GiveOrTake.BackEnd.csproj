@@ -9,8 +9,11 @@
     <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="wwwroot\css\styles.css" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="Services\" />
-    <Folder Include="wwwroot\" />
+    <Folder Include="wwwroot\img\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
