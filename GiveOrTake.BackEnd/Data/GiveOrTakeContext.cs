@@ -13,9 +13,9 @@ namespace GiveOrTake.BackEnd.Data
 
         public GiveOrTakeContext(DbContextOptions<GiveOrTakeContext> options) : base(options)
         { }
-        
+
         protected async override void OnModelCreating(ModelBuilder modelBuilder)
-        { 
+        {
             modelBuilder.Entity<Item>(entity =>
             {
                 entity.ToTable("item");
@@ -68,6 +68,9 @@ namespace GiveOrTake.BackEnd.Data
             {
                 entity.ToTable("transaction");
 
+                entity.HasIndex(e => e.ItemId)
+                    .HasName("fk_Transaction_Item1");
+
                 entity.HasIndex(e => e.UserId)
                     .HasName("fk_Transaction_User1_idx");
 
@@ -78,6 +81,8 @@ namespace GiveOrTake.BackEnd.Data
                     .HasColumnType("text");
 
                 entity.Property(e => e.ExpectedReturnDate).HasColumnType("datetime");
+
+                entity.Property(e => e.ItemId).HasColumnType("int(11)");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -90,6 +95,12 @@ namespace GiveOrTake.BackEnd.Data
                 entity.Property(e => e.UserId)
                     .IsRequired()
                     .HasColumnType("varchar(255)");
+
+                entity.HasOne(d => d.Item)
+                    .WithMany(p => p.Transaction)
+                    .HasForeignKey(d => d.ItemId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_Transaction_Item1");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Transactions)

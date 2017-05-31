@@ -14,6 +14,10 @@ using System;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json.Serialization;
 using GiveOrTake.Database;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace GiveOrTake.BackEnd
 {
@@ -108,11 +112,26 @@ namespace GiveOrTake.BackEnd
                 ClockSkew = TimeSpan.Zero
             };
 
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                LoginPath = new PathString("/Root/Login"),
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true
+            });
+
             app.UseJwtBearerAuthentication(new JwtBearerOptions
             {
                 AutomaticAuthenticate = true,
                 AutomaticChallenge = true,
-                TokenValidationParameters = tokenValidationParameters
+                TokenValidationParameters = tokenValidationParameters,
+                //Events = new JwtBearerEvents
+                //{
+                //    OnChallenge = (context) =>
+                //    {
+                //        context.HttpContext.Response.Redirect("https://localhost:44300/Root/Login");
+                //        return Task.FromResult(0);
+                //    }
+                //}
             });
 
             app.UseSwagger();
@@ -123,7 +142,7 @@ namespace GiveOrTake.BackEnd
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Root}/{action=Index}/{id?}");
             });
         }
     }

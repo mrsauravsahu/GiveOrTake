@@ -1,0 +1,37 @@
+﻿@using GiveOrTake.BackEnd.ViewModels;
+@{
+    var Header = "Welcome Back!";
+    var Message = "Please Sign in.";
+}
+@model LoginViewModel
+
+<!DOCTYPE html>
+<body>
+    <link rel="stylesheet" href="~/css/Root_Login.css" />
+    <div class="container">
+        <div class="jumbotron">
+            <h1 class="text-center" id="myheader">@Header</h1>
+            <h3 class="text-center">@Message</h3>
+        </div>
+    </div>
+    <div class="col=md-10 offset-md-1 col-lg-4 offset-lg-4">
+        @using (Html.BeginForm("Login", "Root", FormMethod.Post, new { enctype = "application/json" }))
+        {
+            @Html.LabelFor(m => m.Name)
+            @Html.TextBoxFor(m => m.Name, "", new { placeholder = "Awesome Name" })
+
+            @Html.LabelFor(m => m.Email)
+            @Html.TextBoxFor(m => m.Email, "", new { placeholder = "you@example.com" })
+
+            @Html.LabelFor(m => m.Email)
+            @Html.PasswordFor(m=>m.Password, new { placeholder = "Password123" })
+
+            <div class="col-lg-12 text-center">
+                <button id="signin" type="submit" class="form-submit-button center">
+                    <i class="mi mi-Accept mi-2x"></i>
+                </button>
+            </div>
+        }
+    </div>
+    <script src="~/scripts/Root_Login.js" type="text/javascript"></script>
+</body>

@@ -1,39 +1,33 @@
-﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - @ViewData["App"]</title>
-
-    <environment names="Development,Staging,Production">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/lib/Micon/dist/micon/css/micon.css" />
-        <link rel="stylesheet" href="~/css/styles.css" />
-    </environment>
-    @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">@ViewData["App"]</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index"><i class="mi mi-Settings"></i>Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact"><i class="mi mi-Phone"></i>Contact</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About"><i class="mi mi-Contact"></i>About</a></li>
-                </ul>
-            </div>
+    <nav class="navbar navbar-toggleable-md navbar-light bg-faded fixed-top">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand"
+           asp-controller="Home"
+           asp-action="Index">@ViewData["App"]</a>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a asp-area=""
+                       asp-controller="Home"
+                       asp-action="About"
+                       class="nav-link">
+                        About
+                    </a>
+                </li>
+            </ul>
         </div>
     </nav>
+
     <div class="container body-content">
         @RenderBody()
         <hr />

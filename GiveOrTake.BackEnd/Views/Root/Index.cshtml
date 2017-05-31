@@ -1,0 +1,24 @@
+﻿@using GiveOrTake.Database;
+@{
+	ViewData["Title"] = "Home Page";
+	ViewData["App"] = "GiveOrTake";
+	var rootUsers = ViewData["RootUsers"] as List<User>;
+}
+<link rel="stylesheet" href="~/css/Root_Index.css" />
+<div class="container-fluid gt-content-root">
+	<h1 class="jumbotron row page-header col-xs-12">Welcome, {0}.</h1>
+	<div class="row">
+		@foreach (var user in rootUsers)
+		{
+			<div class="col-md-3">
+				<div class="card">
+					<div class="card-block text-center">
+						<i class="gt-generic-user-glyph mi mi-Contact mi-fw mi-5x"></i>
+						<h4 class="card-title">@user.Name</h4>
+						<h6>@user.Email</h6>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+</div>

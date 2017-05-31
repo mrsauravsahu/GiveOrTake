@@ -13,6 +13,7 @@ using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Principal;
 using GiveOrTake.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace GiveOrTake.BackEnd.Helpers
 {
@@ -114,19 +115,16 @@ namespace GiveOrTake.BackEnd.Helpers
             //Check username, password against DB Context
             var matchedUser = (from u in dbContext.Users
                                where u.Name == userName && u.Email == email
-                               select u).FirstOrDefault();
+                               select u)
+                               .Include(u => u.RootAccess)
+                               .Where(u => u.RootAccess != null)
+                               .FirstOrDefault();
 
             if (matchedUser == null) { return (null, false); }
 
-            var root = (from p in dbContext.RootAccess
-                        where p.UserId == matchedUser.UserId
-                        select p).FirstOrDefault();
-
-            if (root == null) { return (null, false); }
-
             bool validCredentials = (this.passwordHasher.VerifyHashedPassword(
                 matchedUser,
-                root.Password,
+                matchedUser.RootAccess.Password,
                 password) == PasswordVerificationResult.Success);
 
             if (validCredentials) return (await GenerateAuthToken(matchedUser), true);

@@ -1,0 +1,5 @@
+@{
+    var action = ViewContext.RouteData.Values["Action"].ToString();
+    if (action.ToUpper() != "LOGIN")
+    { Layout = "_Layout"; }
+}

@@ -5,19 +5,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using System;
-using System.Linq;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
-using System.Security.Principal;
 using System.Threading.Tasks;
 using GiveOrTake.Database;
 
 namespace GiveOrTake.BackEnd.Controllers
 {
     [Route("api/[controller]")]
-    public class LoginController
+    public class LoginController : Controller
     {
         private readonly JwtIssuerOptions jwtOptions;
         private readonly ILogger logger;
@@ -43,7 +38,7 @@ namespace GiveOrTake.BackEnd.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Post([FromBody] dynamic user)
+        public async Task<IActionResult> Login([FromBody] dynamic user)
         {
             string userName = user.Name;
             string email = user.Email;

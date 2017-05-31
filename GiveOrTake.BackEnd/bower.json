@@ -2,8 +2,7 @@
   "name": "GiveOrTake",
   "private": true,
   "dependencies": {
-    "bootstrap": "3.3.7",
-    "Micon": "https://github.com/xtoolkit/Micon",
-    "micon": "git://github.com/xtoolkit/Micon.git#~2.2.155"
+    "bootstrap": "v4.0.0-alpha.6",
+    "micon": "2.2.155"
   }
 }
