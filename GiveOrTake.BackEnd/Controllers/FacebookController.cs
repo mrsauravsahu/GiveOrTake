@@ -13,7 +13,7 @@ using GiveOrTake.BackEnd.Data;
 
 namespace GiveOrTake.BackEnd.Controllers
 {
-    [Route("api/login/[controller]")]
+    [Route("api/Login/[controller]")]
     public class FacebookController : Controller
     {
         private readonly FacebookOptions facebookOptions;

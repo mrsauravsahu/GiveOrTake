@@ -2,14 +2,12 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
-
-DROP SCHEMA IF EXISTS `db2` ;
-
-CREATE SCHEMA IF NOT EXISTS `db2` DEFAULT CHARACTER SET utf8 ;
+DROP SCHEMA IF EXISTS `giveortake` ;
+CREATE SCHEMA IF NOT EXISTS `giveortake` DEFAULT CHARACTER SET utf8 ;
 SHOW WARNINGS;
-USE `db2` ;
+USE `giveortake` ;
 
-CREATE TABLE IF NOT EXISTS `db2`.`User` (
+CREATE TABLE IF NOT EXISTS `giveortake`.`User` (
   `UserId` VARCHAR(255) NOT NULL,
   `FirstName` TEXT NOT NULL,
   `MiddleName` TEXT NULL,
@@ -18,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `db2`.`User` (
   PRIMARY KEY (`UserId`))
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `db2`.`Item` (
+CREATE TABLE IF NOT EXISTS `giveortake`.`Item` (
   `ItemId` INT NOT NULL AUTO_INCREMENT,
   `Name` VARCHAR(255) NOT NULL,
   `UserId` VARCHAR(255) NOT NULL,
@@ -27,12 +25,12 @@ CREATE TABLE IF NOT EXISTS `db2`.`Item` (
   INDEX `fk_Item_User1_idx` (`UserId` ASC),
   CONSTRAINT `fk_Item_User1`
     FOREIGN KEY (`UserId`)
-    REFERENCES `db2`.`User` (`UserId`)
+    REFERENCES `giveortake`.`User` (`UserId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `db2`.`Transaction` (
+CREATE TABLE IF NOT EXISTS `giveortake`.`Transaction` (
   `TransactionId` INT NOT NULL AUTO_INCREMENT,
   `Name` TEXT NOT NULL,
   `Description` TEXT NOT NULL,
@@ -45,24 +43,24 @@ CREATE TABLE IF NOT EXISTS `db2`.`Transaction` (
   INDEX `fk_Transaction_User1_idx` (`UserId` ASC),
   CONSTRAINT `fk_Transaction_User1`
     FOREIGN KEY (`UserId`)
-    REFERENCES `db2`.`User` (`UserId`)
+    REFERENCES `giveortake`.`User` (`UserId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Transaction_Item1`
     FOREIGN KEY (`ItemId`)
-    REFERENCES `db2`.`Item` (`ItemId`)
+    REFERENCES `giveortake`.`Item` (`ItemId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `db2`.`RootAccess` (
+CREATE TABLE IF NOT EXISTS `giveortake`.`RootAccess` (
   `Password` TEXT NOT NULL,
   `UserId` VARCHAR(255) NOT NULL,
   INDEX `fk_RootAccess_User_idx` (`UserId` ASC),
   PRIMARY KEY (`UserId`),
   CONSTRAINT `fk_RootAccess_User`
     FOREIGN KEY (`UserId`)
-    REFERENCES `db2`.`User` (`UserId`)
+    REFERENCES `giveortake`.`User` (`UserId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

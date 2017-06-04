@@ -260,3 +260,5 @@ paket-files/
 __pycache__/
 *.pyc
 /GiveOrTake.BackEnd/bower_components
+/GiveOrTake.BackEnd/Properties/PublishProfiles
+/GiveOrTake.BackEnd/Properties/PublishProfiles
