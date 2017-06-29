@@ -10,6 +10,7 @@ namespace GiveOrTake.BackEnd
         {
             var host = new WebHostBuilder()
                 .UseKestrel()
+				.UseUrls("http://*:4201")
 				.UseIISIntegration()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseStartup<Startup>()

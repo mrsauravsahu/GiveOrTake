@@ -40,21 +40,20 @@ namespace GiveOrTake.BackEnd.Controllers
 				MiddleName = user.MiddleName,
 				LastName = user.LastName,
 				Email = user.Email,
-				Items = (from i in user.Items
-						 select new { ItemId = i.ItemId, Name = i.Name }),
-				Transactions = (from t in user.Transactions
-								select new
-								{
-									TransactionId = t.TransactionId,
-									Name = t.Name,
-									Description = t.Description,
-									TransactionType = t.TransactionType,
-									OccurrenceDate = t.OccurrenceDate,
-									ExpectedReturnDate = t.ExpectedReturnDate,
-									Item = new Item { Name = t.Item.Name }
-								})
+				Items = user.Items.Select(i => new { ItemId = i.ItemId, Name = i.Name }),
+				Transactions = user.Transactions.Select(t => new
+				{
+					TransactionId = t.TransactionId,
+					Name = t.Name,
+					Description = t.Description,
+					TransactionType = t.TransactionType,
+					OccurrenceDate = t.OccurrenceDate,
+					ExpectedReturnDate = t.ExpectedReturnDate,
+					Item = new Item { Name = t.Item.Name }
+				})
 			};
 
+			Debug.WriteLine(JsonConvert.SerializeObject(result));
 			return new ObjectResult(result);
 		}
 	}

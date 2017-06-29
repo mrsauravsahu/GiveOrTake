@@ -4,6 +4,7 @@ using System.Linq;
 using System.IdentityModel.Tokens.Jwt;
 using GiveOrTake.Database;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace GiveOrTake.BackEnd.Controllers
 {
@@ -24,7 +25,10 @@ namespace GiveOrTake.BackEnd.Controllers
 
 			return (from u in dbContext.Users
 					where u.UserId == userId
-					select u).FirstOrDefault();
+					select u)
+					.Include(p => p.Items)
+					.Include(p => p.Transactions)
+					.FirstOrDefault();
 		}
 
 		/// <summary>
@@ -77,38 +81,28 @@ namespace GiveOrTake.BackEnd.Controllers
 			try
 			{
 				var user = GetUser(Request.Headers[AuthHeaderKey].First());
-
-				if (transaction.TransactionId == -1)
+				transaction.UserId = user.UserId;
+				transaction.User = user;
+				if (transaction.Item.ItemId == -1)
 				{
-					// Add new Transaction
-					user.Transactions.Add(new Transaction
+					//New Item
+					transaction.Item = new Item
 					{
-						Name = transaction.Name,
-						Description = transaction.Description,
-						OccurrenceDate = transaction.OccurrenceDate,
-						ExpectedReturnDate = transaction.ExpectedReturnDate,
-						TransactionType = transaction.TransactionType,
-						ItemId = transaction.ItemId
-					});
-
-					await dbContext.SaveChangesAsync();
-					return new OkResult();
+						Name = transaction.Item.Name,
+						UserId = user.UserId,
+						User = user
+					};
 				}
-
-				var tr = (from t in user.Transactions
-						  where t.TransactionId == transaction.TransactionId
-						  select t).FirstOrDefault();
-
-				if (tr != null)
+				if (transaction.TransactionId != -1)
 				{
-					tr.Name = transaction.Name;
-					tr.Description = transaction.Description;
-					tr.OccurrenceDate = transaction.OccurrenceDate;
-					tr.ExpectedReturnDate = transaction.ExpectedReturnDate;
-					tr.TransactionType = transaction.TransactionType;
-					tr.ItemId = transaction.ItemId;
-					return new OkResult();
+					var tr = (from t in user.Transactions
+							  where t.TransactionId == transaction.TransactionId
+							  select t).FirstOrDefault();
+					user.Transactions.Remove(tr);
 				}
+				user.Transactions.Add(transaction);
+				await dbContext.SaveChangesAsync();
+				return new OkResult();
 			}
 			catch { }
 			return new NotFoundResult();
