@@ -18,4 +18,16 @@
     <PackageReference Include="Xamarin.Forms" Version="2.3.4.231" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Views\MenuPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\OverviewPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\RootPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>
