@@ -8,7 +8,7 @@ namespace GiveOrTake.FrontEnd.UWP
 		{
 			this.InitializeComponent();
 			new SfChartRenderer();
-			LoadApplication(new GiveOrTake.FrontEnd.Shared.App());
+			LoadApplication(new GiveOrTake.FrontEnd.Shared.App(App.DatabasePath));
 		}
 	}
 }

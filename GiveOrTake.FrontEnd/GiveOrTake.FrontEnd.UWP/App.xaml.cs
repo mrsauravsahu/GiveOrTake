@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
@@ -12,6 +14,8 @@ namespace GiveOrTake.FrontEnd.UWP
 	/// </summary>
 	sealed partial class App : Application
 	{
+		public static string DatabasePath { get; private set; }
+
 		/// <summary>
 		/// Initializes the singleton application object.  This is the first line of authored code
 		/// executed, and as such is the logical equivalent of main() or WinMain().
@@ -20,6 +24,9 @@ namespace GiveOrTake.FrontEnd.UWP
 		{
 			this.InitializeComponent();
 			this.Suspending += OnSuspending;
+
+			DatabasePath = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "gt1.db");
+			Debug.WriteLine(DatabasePath);
 		}
 
 		/// <summary>
