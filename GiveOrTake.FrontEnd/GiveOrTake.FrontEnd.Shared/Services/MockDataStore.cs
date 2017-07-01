@@ -72,11 +72,13 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 
 		public async Task InitializeAsync()
 		{
-			if (isInitialized)
-				return;
+			await Task.Run(() =>
+			{
+				if (isInitialized)
+					return;
 
-			items = new List<Item>();
-			var _items = new List<Item>
+				items = new List<Item>();
+				var _items = new List<Item>
 			{
 				new Item { Id = Guid.NewGuid().ToString(), Text = "Buy some cat food", Description="The cats are hungry"},
 				new Item { Id = Guid.NewGuid().ToString(), Text = "Learn F#", Description="Seems like a functional idea"},
@@ -86,12 +88,13 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 				new Item { Id = Guid.NewGuid().ToString(), Text = "Finish a todo list", Description="Done"},
 			};
 
-			foreach (Item item in _items)
-			{
-				items.Add(item);
-			}
+				foreach (Item item in _items)
+				{
+					items.Add(item);
+				}
 
-			isInitialized = true;
+				isInitialized = true;
+			});
 		}
 	}
 }

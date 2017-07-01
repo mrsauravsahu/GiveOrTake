@@ -1,10 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GiveOrTake.FrontEnd.Shared.Views.OverviewPage">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin Forms!" />
-        </StackLayout>
-    </ContentPage.Content>
+             x:Class="GiveOrTake.FrontEnd.Shared.Views.OverviewPage"
+			 xmlns:chart="clr-namespace:Syncfusion.SfChart.XForms;assembly=Syncfusion.SfChart.XForms">
+	<ContentPage.Content>
+		<!--Pie Chart-->
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="*"/>
+			</Grid.RowDefinitions>
+			<chart:SfChart>
+				<chart:SfChart.Legend>
+					<chart:ChartLegend/>
+				</chart:SfChart.Legend>
+
+				<chart:SfChart.Series>
+					<chart:DoughnutSeries ItemsSource="{Binding Data}"
+										  XBindingPath="Label"
+										  YBindingPath="Value" 
+										  Label="Label"
+										  EnableSmartLabels="True"
+										  ConnectorLineType = "Bezier" 
+										  DataMarkerPosition = "OutsideExtended">
+						<chart:PieSeries.DataMarker>
+							<chart:ChartDataMarker />
+						</chart:PieSeries.DataMarker>
+					</chart:DoughnutSeries>
+				</chart:SfChart.Series>
+			</chart:SfChart>
+			<!--Recents-->
+			<StackLayout Grid.Row="1">
+				<Label Text="Recents"/>
+			</StackLayout>
+		</Grid>
+	</ContentPage.Content>
 </ContentPage>

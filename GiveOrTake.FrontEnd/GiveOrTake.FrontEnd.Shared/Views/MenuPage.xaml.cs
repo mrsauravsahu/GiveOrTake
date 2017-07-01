@@ -1,4 +1,5 @@
 ﻿using GiveOrTake.FrontEnd.Shared.Helpers;
+using GiveOrTake.FrontEnd.Shared.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +14,12 @@ namespace GiveOrTake.FrontEnd.Shared.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class MenuPage : ContentPage
 	{
+		private MenuPageViewModel viewModel;
+
 		public MenuPage()
 		{
 			Title = Constants.AppTitle;
+			BindingContext = viewModel = new MenuPageViewModel();
 			InitializeComponent();
 		}
 	}

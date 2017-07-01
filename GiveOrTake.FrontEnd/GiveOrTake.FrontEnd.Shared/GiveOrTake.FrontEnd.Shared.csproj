@@ -15,10 +15,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Syncfusion.Xamarin.SfChart" Version="15.2.0.43" />
     <PackageReference Include="Xamarin.Forms" Version="2.3.4.231" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\AddOrEditTransactionPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\MenuPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
