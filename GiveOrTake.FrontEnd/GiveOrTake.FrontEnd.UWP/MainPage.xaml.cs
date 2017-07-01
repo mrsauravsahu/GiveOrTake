@@ -5,7 +5,7 @@
 		public MainPage()
 		{
 			this.InitializeComponent();
-			LoadApplication(new GiveOrTake.FrontEnd.App());
+			LoadApplication(new GiveOrTake.FrontEnd.Shared.App());
 		}
 	}
 }

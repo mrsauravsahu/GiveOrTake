@@ -134,9 +134,9 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GiveOrTake.FrontEnd\GiveOrTake.FrontEnd.csproj">
-      <Project>{0fa0da32-8bbb-483c-97de-4c9a0bfb47a3}</Project>
-      <Name>GiveOrTake.FrontEnd</Name>
+    <ProjectReference Include="..\GiveOrTake.FrontEnd.Shared\GiveOrTake.FrontEnd.Shared.csproj">
+      <Project>{5677542a-1542-4d89-9f04-32ad73790cfb}</Project>
+      <Name>GiveOrTake.FrontEnd.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
