@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BackEnd", "BackEnd", "{1505E265-CD54-4369-82CA-DB2737EF185F}"
 EndProject
@@ -18,8 +18,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrontEnd", "FrontEnd", "{B57373E9-7DFE-4FA4-97B6-65C4E29DE452}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiveOrTake.FrontEnd.Android", "GiveOrTake.FrontEnd\GiveOrTake.FrontEnd.Android\GiveOrTake.FrontEnd.Android.csproj", "{8D203B31-B07E-4603-AB4B-284EB39F4170}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiveOrTake.FrontEnd.iOS", "GiveOrTake.FrontEnd\GiveOrTake.FrontEnd.iOS\GiveOrTake.FrontEnd.iOS.csproj", "{5FCE356B-BAEB-48F6-8492-4F3388865EA5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiveOrTake.FrontEnd.UWP", "GiveOrTake.FrontEnd\GiveOrTake.FrontEnd.UWP\GiveOrTake.FrontEnd.UWP.csproj", "{46296B8D-F6F6-40B2-9196-7ADBB0208B20}"
 EndProject
@@ -169,22 +167,6 @@ Global
 		{8D203B31-B07E-4603-AB4B-284EB39F4170}.Release|x86.ActiveCfg = Release|Any CPU
 		{8D203B31-B07E-4603-AB4B-284EB39F4170}.Release|x86.Build.0 = Release|Any CPU
 		{8D203B31-B07E-4603-AB4B-284EB39F4170}.Release|x86.Deploy.0 = Release|Any CPU
-		{5FCE356B-BAEB-48F6-8492-4F3388865EA5}.Debug|Any CPU.ActiveCfg = Debug|iPhone
-		{5FCE356B-BAEB-48F6-8492-4F3388865EA5}.Debug|ARM.ActiveCfg = Debug|iPhone
-		{5FCE356B-BAEB-48F6-8492-4F3388865EA5}.Debug|iPhone.ActiveCfg = Debug|iPhone
-		{5FCE356B-BAEB-48F6-8492-4F3388865EA5}.Debug|iPhone.Build.0 = Debug|iPhone
-		{5FCE356B-BAEB-48F6-8492-4F3388865EA5}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
-		{5FCE356B-BAEB-48F6-8492-4F3388865EA5}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
-		{5FCE356B-BAEB-48F6-8492-4F3388865EA5}.Debug|x64.ActiveCfg = Debug|iPhone
-		{5FCE356B-BAEB-48F6-8492-4F3388865EA5}.Debug|x86.ActiveCfg = Debug|iPhone
-		{5FCE356B-BAEB-48F6-8492-4F3388865EA5}.Release|Any CPU.ActiveCfg = Release|iPhone
-		{5FCE356B-BAEB-48F6-8492-4F3388865EA5}.Release|ARM.ActiveCfg = Release|iPhone
-		{5FCE356B-BAEB-48F6-8492-4F3388865EA5}.Release|iPhone.ActiveCfg = Release|iPhone
-		{5FCE356B-BAEB-48F6-8492-4F3388865EA5}.Release|iPhone.Build.0 = Release|iPhone
-		{5FCE356B-BAEB-48F6-8492-4F3388865EA5}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
-		{5FCE356B-BAEB-48F6-8492-4F3388865EA5}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
-		{5FCE356B-BAEB-48F6-8492-4F3388865EA5}.Release|x64.ActiveCfg = Release|iPhone
-		{5FCE356B-BAEB-48F6-8492-4F3388865EA5}.Release|x86.ActiveCfg = Release|iPhone
 		{46296B8D-F6F6-40B2-9196-7ADBB0208B20}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{46296B8D-F6F6-40B2-9196-7ADBB0208B20}.Debug|Any CPU.Build.0 = Debug|x86
 		{46296B8D-F6F6-40B2-9196-7ADBB0208B20}.Debug|Any CPU.Deploy.0 = Debug|x86
@@ -247,7 +229,6 @@ Global
 		{C6475349-F10F-418D-A604-5E955B0BC062} = {18FF2C87-66A2-4967-B4F3-09DB179E914B}
 		{73DD40AA-85F1-494F-93BF-69C5D99CB3DA} = {18FF2C87-66A2-4967-B4F3-09DB179E914B}
 		{8D203B31-B07E-4603-AB4B-284EB39F4170} = {B57373E9-7DFE-4FA4-97B6-65C4E29DE452}
-		{5FCE356B-BAEB-48F6-8492-4F3388865EA5} = {B57373E9-7DFE-4FA4-97B6-65C4E29DE452}
 		{46296B8D-F6F6-40B2-9196-7ADBB0208B20} = {B57373E9-7DFE-4FA4-97B6-65C4E29DE452}
 		{5677542A-1542-4D89-9F04-32AD73790CFB} = {B57373E9-7DFE-4FA4-97B6-65C4E29DE452}
 	EndGlobalSection
