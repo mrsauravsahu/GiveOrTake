@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using System.IO;
 
 namespace GiveOrTake.FrontEnd.Droid
 {
@@ -9,14 +10,15 @@ namespace GiveOrTake.FrontEnd.Droid
 	{
 		protected override void OnCreate(Bundle bundle)
 		{
+			var dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "gt1.db");
+
 			TabLayoutResource = Resource.Layout.Tabbar;
 			ToolbarResource = Resource.Layout.Toolbar;
-
 			base.OnCreate(bundle);
 
 			global::Xamarin.Forms.Forms.Init(this, bundle);
 
-			LoadApplication(new GiveOrTake.FrontEnd.Shared.App());
+			LoadApplication(new GiveOrTake.FrontEnd.Shared.App(dbPath));
 		}
 	}
 }

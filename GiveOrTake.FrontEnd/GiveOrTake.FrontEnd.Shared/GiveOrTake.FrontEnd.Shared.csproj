@@ -29,6 +29,9 @@
     <Compile Update="Views\AddOrEditTransactionPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\LoginPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\MenuPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -22,5 +22,14 @@ namespace GiveOrTake.FrontEnd.Shared.Views
 			BindingContext = viewModel = new MenuPageViewModel();
 			InitializeComponent();
 		}
+
+		private async void loginButtonClicked(object sender, EventArgs e)
+		{
+			App.RootPage.IsPresented = false;
+			var loginPage = new LoginPage();
+			var homePage = App.NavigationPage.Navigation.NavigationStack.First();
+			App.NavigationPage.Navigation.InsertPageBefore(loginPage, homePage);
+			await App.NavigationPage.PopToRootAsync(false);
+		}
 	}
 }

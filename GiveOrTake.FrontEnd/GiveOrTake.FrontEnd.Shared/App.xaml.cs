@@ -14,8 +14,8 @@ namespace GiveOrTake.FrontEnd.Shared
 	{
 		public static string DatabasePath { get; private set; }
 		public static ObservableCollection<Person> People { get; private set; }
-
-		public NavigationPage NavigationPage { get; private set; }
+		public static NavigationPage NavigationPage { get; private set; }
+		public static RootPage RootPage { get; private set; }
 
 		public App(string databasePath)
 		{
@@ -23,12 +23,14 @@ namespace GiveOrTake.FrontEnd.Shared
 
 			DatabasePath = databasePath;
 			getData();
+
 			NavigationPage = new NavigationPage(new OverviewPage());
-			MainPage = new RootPage
+			RootPage = new RootPage
 			{
 				Master = new MenuPage(),
 				Detail = NavigationPage
 			};
+			MainPage = RootPage;
 		}
 
 		private void getData()

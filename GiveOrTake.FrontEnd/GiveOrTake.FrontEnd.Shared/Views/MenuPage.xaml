@@ -12,6 +12,11 @@
 				</OnPlatform>
 			</Grid.Margin>-->
 			<StackLayout>
+				<StackLayout HeightRequest="120"
+							 Padding="0, 20, 20, 0">
+					<Button Text="login"
+							Clicked="loginButtonClicked"/>
+				</StackLayout>
 				<ListView ItemsSource="{Binding MenuItems}">
 					<ListView.ItemTemplate>
 						<DataTemplate>
