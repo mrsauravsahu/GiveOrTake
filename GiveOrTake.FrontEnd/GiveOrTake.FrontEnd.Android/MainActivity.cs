@@ -2,6 +2,8 @@
 using Android.Content.PM;
 using Android.OS;
 using System.IO;
+using Xamarin.Forms;
+using Plugin.Toasts;
 
 namespace GiveOrTake.FrontEnd.Droid
 {
@@ -17,6 +19,9 @@ namespace GiveOrTake.FrontEnd.Droid
 			base.OnCreate(bundle);
 
 			global::Xamarin.Forms.Forms.Init(this, bundle);
+
+			DependencyService.Register<ToastNotification>();
+			ToastNotification.Init(this, new PlatformOptions() { SmallIconDrawable = Android.Resource.Drawable.IcDialogInfo });
 
 			LoadApplication(new GiveOrTake.FrontEnd.Shared.App(dbPath));
 		}

@@ -1,4 +1,6 @@
-﻿using Syncfusion.SfChart.XForms.UWP;
+﻿using Plugin.Toasts.UWP;
+using Syncfusion.SfChart.XForms.UWP;
+using Xamarin.Forms;
 
 namespace GiveOrTake.FrontEnd.UWP
 {
@@ -8,6 +10,10 @@ namespace GiveOrTake.FrontEnd.UWP
 		{
 			this.InitializeComponent();
 			new SfChartRenderer();
+
+			DependencyService.Register<ToastNotification>();
+			ToastNotification.Init();
+			
 			LoadApplication(new GiveOrTake.FrontEnd.Shared.App(App.DatabasePath));
 		}
 	}

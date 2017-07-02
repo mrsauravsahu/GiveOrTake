@@ -6,6 +6,7 @@ using Xamarin.Forms.Xaml;
 using System;
 using GiveOrTake.FrontEnd.Shared.Data;
 using System.Linq;
+using Plugin.Toasts;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace GiveOrTake.FrontEnd.Shared
@@ -55,6 +56,21 @@ namespace GiveOrTake.FrontEnd.Shared
 				App.People = new ObservableCollection<Person>();
 				items.ToList().ForEach(p => App.People.Add(p));
 			}
+		}
+
+		protected override async void OnSleep()
+		{
+			//base.OnSleep();
+			var notificator = DependencyService.Get<IToastNotificator>();
+
+			var options = new NotificationOptions()
+			{
+				Title = "Hello!",
+				Description = "Check back in!",
+				DelayUntil = DateTime.Now + TimeSpan.FromSeconds(10)
+			};
+
+			var result = await notificator.Notify(options);
 		}
 	}
 }
