@@ -32,17 +32,6 @@
 			<!--Recents-->
 			<StackLayout Grid.Row="1">
 				<Label Text="Recents"/>
-				<ListView ItemsSource="{Binding People}">
-					<ListView.ItemTemplate>
-						<DataTemplate>
-							<ViewCell>
-								<ViewCell.View>
-									<Label Text="{Binding Name}"/>
-								</ViewCell.View>
-							</ViewCell>
-						</DataTemplate>
-					</ListView.ItemTemplate>
-				</ListView>
 			</StackLayout>
 		</Grid>
 	</ContentPage.Content>

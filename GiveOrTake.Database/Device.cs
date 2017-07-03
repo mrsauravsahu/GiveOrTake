@@ -4,10 +4,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GiveOrTake.Database
 {
-	public class Item
+	public class Device
 	{
-		public Item() { Transaction = new HashSet<Transaction>(); }
-		public Guid ItemId { get; set; }
+		public Device()
+		{ Transaction = new HashSet<Transaction>(); }
+		public Guid DeviceId { get; set; }
 
 		[MaxLength(64)]
 		[Required]
@@ -18,7 +19,6 @@ namespace GiveOrTake.Database
 
 		public string UserId { get; set; }
 		public User User { get; set; }
-
 		public HashSet<Transaction> Transaction { get; set; }
 	}
 }
