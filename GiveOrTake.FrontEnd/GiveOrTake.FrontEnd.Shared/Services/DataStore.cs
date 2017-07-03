@@ -1,19 +1,25 @@
-﻿using System;
+﻿using GiveOrTake.FrontEnd.Shared.Models;
+using GiveOrTake.FrontEnd.Shared.Data;
+using Plugin.Connectivity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-using GiveOrTake.FrontEnd.Shared.Models;
-
 using Xamarin.Forms;
 
-[assembly: Dependency(typeof(GiveOrTake.FrontEnd.Shared.Services.MockDataStore))]
+[assembly: Dependency(typeof(GiveOrTake.FrontEnd.Shared.Services.DataStore))]
 namespace GiveOrTake.FrontEnd.Shared.Services
 {
-	public class MockDataStore : IDataStore<Item>
+	public class DataStore
 	{
+		ApplicationDbContext context;
 		bool isInitialized;
 		List<Item> items;
+
+		public DataStore()
+		{ context = new ApplicationDbContext(App.DatabasePath); }
+
+		~DataStore() { context.Dispose(); }
 
 		public async Task<bool> AddItemAsync(Item item)
 		{
@@ -72,29 +78,23 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 
 		public async Task InitializeAsync()
 		{
+			if (isInitialized) return;
+
 			await Task.Run(() =>
 			{
-				if (isInitialized)
-					return;
-
-				items = new List<Item>();
-				var _items = new List<Item>
-			{
-				new Item { Id = Guid.NewGuid().ToString(), Text = "Buy some cat food", Description="The cats are hungry"},
-				new Item { Id = Guid.NewGuid().ToString(), Text = "Learn F#", Description="Seems like a functional idea"},
-				new Item { Id = Guid.NewGuid().ToString(), Text = "Learn to play guitar", Description="Noted"},
-				new Item { Id = Guid.NewGuid().ToString(), Text = "Buy some new candles", Description="Pine and cranberry for that winter feel"},
-				new Item { Id = Guid.NewGuid().ToString(), Text = "Complete holiday shopping", Description="Keep it a secret!"},
-				new Item { Id = Guid.NewGuid().ToString(), Text = "Finish a todo list", Description="Done"},
-			};
-
-				foreach (Item item in _items)
+				if (CrossConnectivity.Current.IsConnected == true)
 				{
-					items.Add(item);
-				}
+					//Send current device transactions.
+					//Send all items.
 
-				isInitialized = true;
+					//Get all other devices transactions.
+					//Get all items.
+
+					items = new List<Item>();
+					isInitialized = true;
+				}
 			});
 		}
+
 	}
 }
