@@ -185,5 +185,12 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 
 			await context.SaveChangesAsync();
 		}
+
+		public async Task<List<Database.Item>> GetItemsAsync()
+		{
+			return (await context.Users
+				.Include(p => p.Item)
+				.FirstOrDefaultAsync())?.Item?.ToList();
+		}
 	}
 }

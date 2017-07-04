@@ -3,10 +3,10 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 
 using GiveOrTake.FrontEnd.Shared.Helpers;
-using GiveOrTake.FrontEnd.Shared.Models;
 using GiveOrTake.FrontEnd.Shared.Views;
 
 using Xamarin.Forms;
+using GiveOrTake.Database;
 
 namespace GiveOrTake.FrontEnd.Shared.ViewModels
 {
@@ -21,15 +21,15 @@ namespace GiveOrTake.FrontEnd.Shared.ViewModels
 			Items = new ObservableRangeCollection<Item>();
 			LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
-			MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
-			{
-				var _item = item as Item;
-				Items.Add(_item);
-				await DataStore.AddItemAsync(_item);
-			});
+			//MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
+			//{
+			//	var _item = item as Item;
+			//	Items.Add(_item);
+			//	await DataStore.AddItemAsync(_item);
+			//});
 		}
 
-		async Task ExecuteLoadItemsCommand()
+		public async Task ExecuteLoadItemsCommand()
 		{
 			if (IsBusy)
 				return;
@@ -39,7 +39,7 @@ namespace GiveOrTake.FrontEnd.Shared.ViewModels
 			try
 			{
 				Items.Clear();
-				var items = await DataStore.GetItemsAsync(true);
+				var items = await DataStore.GetItemsAsync();
 				Items.ReplaceRange(items);
 			}
 			catch (Exception ex)
