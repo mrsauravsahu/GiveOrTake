@@ -262,3 +262,8 @@ __pycache__/
 /GiveOrTake.BackEnd/bower_components
 /GiveOrTake.BackEnd/Properties/PublishProfiles
 /GiveOrTake.BackEnd/Properties/PublishProfiles
+/GiveOrTake.FrontEnd/GiveOrTake.FrontEnd.Android/Assets/segmdl2.ttf
+/GiveOrTake.FrontEnd/GiveOrTake.FrontEnd.UWP/Assets/Fonts/segmdl2.ttf
+/GiveOrTake.FrontEnd/outputs
+/GiveOrTake.FrontEnd/GiveOrTake.FrontEnd.Android/Resources/drawable
+/GiveOrTake.FrontEnd/GiveOrTake.FrontEnd.UWP/profile.jpg
