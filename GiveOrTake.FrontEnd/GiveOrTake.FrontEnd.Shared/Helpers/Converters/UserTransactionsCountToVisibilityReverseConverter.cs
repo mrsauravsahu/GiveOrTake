@@ -11,7 +11,7 @@ namespace GiveOrTake.FrontEnd.Shared.Helpers.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			if (value is HashSet<Transaction> t)
+			if (value is ObservableRangeCollection<Transaction> t)
 				return (t.Count == 0);
 			return false;
 		}

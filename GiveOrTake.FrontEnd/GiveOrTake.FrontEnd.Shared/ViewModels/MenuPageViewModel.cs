@@ -29,9 +29,9 @@ namespace GiveOrTake.FrontEnd.Shared.ViewModels
 					Page = new AddOrEditTransactionPage()
 				},
 				new MenuItem {
-					Label = "All",
+					Label = "All Transactions",
 					Icon = "\uE8AB",
-					Page = new ItemsPage()
+					Page = new TransactionsPage()
 				},
 				new MenuItem {
 					Label = "My Items",

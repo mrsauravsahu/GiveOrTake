@@ -17,7 +17,7 @@ namespace GiveOrTake.FrontEnd.Shared.ViewModels
 
 		public ItemsViewModel()
 		{
-			Title = "Browse";
+			Title = "My Items";
 			Items = new ObservableRangeCollection<Item>();
 			LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 

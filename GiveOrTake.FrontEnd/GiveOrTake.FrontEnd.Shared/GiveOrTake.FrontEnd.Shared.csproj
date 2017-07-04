@@ -44,6 +44,9 @@
     <Compile Update="Views\RootPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\TransactionsPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
 </Project>

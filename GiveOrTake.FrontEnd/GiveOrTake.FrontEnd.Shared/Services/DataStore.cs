@@ -192,5 +192,11 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 				.Include(p => p.Item)
 				.FirstOrDefaultAsync())?.Item?.ToList();
 		}
+		public async Task<List<Database.Transaction>> GetTransactionsAsync()
+		{
+			return (await context.Users
+				.Include(p => p.Transaction)
+				.FirstOrDefaultAsync())?.Transaction?.ToList();
+		}
 	}
 }

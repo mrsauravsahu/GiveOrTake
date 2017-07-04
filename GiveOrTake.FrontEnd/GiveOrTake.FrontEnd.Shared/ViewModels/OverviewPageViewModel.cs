@@ -14,7 +14,7 @@ namespace GiveOrTake.FrontEnd.Shared.ViewModels
 {
 	class OverviewPageViewModel : BaseViewModel
 	{
-		public ObservableCollection<DataPoint> Statistics { get; set; }
+		public ObservableRangeCollection<DataPoint> Statistics { get; set; }
 
 		public User user;
 		public User User
@@ -34,6 +34,13 @@ namespace GiveOrTake.FrontEnd.Shared.ViewModels
 			get { return showNoTransactions; }
 			set { SetProperty(ref showNoTransactions, value); }
 		}
+		private bool showTransactions;
+
+		public bool ShowTransactions
+		{
+			get { return showTransactions; }
+			set { SetProperty(ref showTransactions, value); }
+		}
 
 
 		public async Task LoadUserDetails()
@@ -43,21 +50,40 @@ namespace GiveOrTake.FrontEnd.Shared.ViewModels
 			IsBusy = true;
 			BusyMessage = "Loading your transactions...";
 
-			await Task.Run(async () =>
+			ShowNoTransactions = false;
+			ShowTransactions = false;
+
+			try
 			{
 				this.User = await DataStore.GetUserDetails();
 
-				this.Statistics[0].Value = (from u in User.Transaction
-											where u.TransactionType == TransactionType.Give
-											select u).Count();
-				this.Statistics[1].Value = (from u in User.Transaction
-											where u.TransactionType == TransactionType.Take
-											select u).Count();
-				ShowNoTransactions = (user.Transaction.Count == 0);
-			});
+				this.Statistics.ReplaceRange(new List<DataPoint>
+				{
+					new DataPoint
+					{
+						Label = "Lent",
+						Value = (from u in User.Transaction
+								 where u.TransactionType == TransactionType.Give
+								 select u).Count()
+					},
+					new DataPoint
+					{
+						Label = "Borrowed",
+						Value = (from u in User.Transaction
+								 where u.TransactionType == TransactionType.Take
+								 select u).Count()
+					}
+				});
 
-			IsBusy = false;
-			BusyMessage = string.Empty;
+				ShowNoTransactions = (user.Transaction.Count == 0);
+				ShowTransactions = !ShowNoTransactions;
+			}
+			catch (Exception e) { }
+			finally
+			{
+				IsBusy = false;
+				BusyMessage = string.Empty;
+			}
 		}
 
 		private string busyMessage;
@@ -71,13 +97,10 @@ namespace GiveOrTake.FrontEnd.Shared.ViewModels
 
 		public OverviewPageViewModel()
 		{
-			Statistics = new Helpers.ObservableRangeCollection<DataPoint>()
-			{
-				new DataPoint{Label="Lent", Value=2},
-				new DataPoint{Label="Borrowed", Value=3}
-			};
 			User = new User();
+			Statistics = new ObservableRangeCollection<DataPoint>();
 			ShowNoTransactions = false;
+			ShowTransactions = false;
 		}
 	}
 }

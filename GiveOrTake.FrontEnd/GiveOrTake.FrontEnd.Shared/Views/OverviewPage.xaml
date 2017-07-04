@@ -6,30 +6,24 @@
 			 Title="Overview">
 	<ContentPage.Content>
 		<Grid BackgroundColor="White">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="*"/>
-				<RowDefinition Height="*"/>
-			</Grid.RowDefinitions>
-			<StackLayout IsVisible="{Binding IsBusy}">
-				<ActivityIndicator Grid.Row="0"
+			<StackLayout>
+				<StackLayout IsVisible="{Binding IsBusy, Mode=OneWay}">
+					<ActivityIndicator Grid.Row="0"
 							   IsRunning="True"
 							   HeightRequest="32"
 							   WidthRequest="200"
 							   HorizontalOptions="FillAndExpand"
 							   Color="{StaticResource Primary}"/>
-				<Label Text="{Binding BusyMessage}"
+					<Label Text="{Binding BusyMessage, Mode=OneWay}"
 					   HorizontalOptions="CenterAndExpand"/>
-			</StackLayout>
-			<!--Pie Chart-->
-			<StackLayout>
-				<chart:SfChart Grid.Row="1"
-						   IsVisible="{Binding User.Transaction, Converter={StaticResource UserTransactionsCountToVisibilityConverter}}">
+				</StackLayout>
+				<chart:SfChart HeightRequest="320"
+							   IsVisible="{Binding ShowTransactions, Mode=OneWay}">
 					<chart:SfChart.Legend>
 						<chart:ChartLegend/>
 					</chart:SfChart.Legend>
 					<chart:SfChart.Series>
-						<chart:DoughnutSeries ItemsSource="{Binding Statistics}"
+						<chart:DoughnutSeries ItemsSource="{Binding Statistics, Mode=OneWay}"
 										  XBindingPath="Label"
 										  YBindingPath="Value" 
 										  Label="Label"
@@ -43,13 +37,9 @@
 					</chart:SfChart.Series>
 				</chart:SfChart>
 				<Label Text="All caught up... No transactions up ahead."
-					   IsVisible="{Binding ShowNoTransactions}"/>
-			</StackLayout>
-
-			<!--Recents-->
-			<StackLayout Grid.Row="2"
-						 IsVisible="{Binding ShowNoTransactions}">
-				<Label Text="Recents"/>
+					   IsVisible="{Binding ShowNoTransactions, Mode=OneWay}"/>
+				<Label Text="Recents"
+					   IsVisible="{Binding ShowTransactions, Mode=OneWay}" />
 			</StackLayout>
 		</Grid>
 	</ContentPage.Content>
