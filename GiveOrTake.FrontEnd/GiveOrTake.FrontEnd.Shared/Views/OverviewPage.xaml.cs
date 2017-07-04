@@ -19,8 +19,12 @@ namespace GiveOrTake.FrontEnd.Shared.Views
 		public OverviewPage()
 		{
 			InitializeComponent();
-			Title = Constants.AppTitle;
 			BindingContext = viewModel = new OverviewPageViewModel();
+		}
+		protected override async void OnAppearing()
+		{
+			base.OnAppearing();
+			await viewModel.LoadUserDetails();
 		}
 	}
 }

@@ -1,32 +1,40 @@
-﻿using GiveOrTake.Database;
-using GiveOrTake.FrontEnd.Shared.Views;
-using System.Collections.ObjectModel;
+﻿using GiveOrTake.FrontEnd.Shared.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System;
 using Plugin.Toasts;
+using GiveOrTake.FrontEnd.Shared.Services;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace GiveOrTake.FrontEnd.Shared
 {
 	public partial class App : Application
 	{
-		public static string DatabasePath { get; private set; }
-		public static NavigationPage NavigationPage { get; private set; }
-		public static RootPage RootPage { get; private set; }
+		public static string DatabasePath { get; set; }
+		public static NavigationPage NavigationPage { get; set; }
+		public static RootPage RootPage { get; set; }
+		public static MenuPage MenuPage { get; set; }
 
 		public App(string databasePath)
 		{
 			InitializeComponent();
 
 			DatabasePath = databasePath;
-			NavigationPage = new NavigationPage(new OverviewPage());
+
+			var dataStore = DependencyService.Get<DataStore>();
+			var isLoggedIn = dataStore.IsLoggedIn();
+
+			if (isLoggedIn == false)
+				NavigationPage = new NavigationPage(new LoginPage());
+			else
+				NavigationPage = new NavigationPage(new OverviewPage());
+
+			MenuPage = new MenuPage();
 			RootPage = new RootPage
 			{
-				Master = new MenuPage(),
+				Master = MenuPage,
 				Detail = NavigationPage
 			};
-
 			MainPage = RootPage;
 		}
 

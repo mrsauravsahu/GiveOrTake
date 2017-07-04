@@ -23,13 +23,14 @@ namespace GiveOrTake.FrontEnd.Shared.Views
 			InitializeComponent();
 		}
 
-		private async void loginButtonClicked(object sender, EventArgs e)
+		private void OnMenuItemSelect(object sender, SelectedItemChangedEventArgs e)
 		{
-			App.RootPage.IsPresented = false;
-			var loginPage = new LoginPage();
-			var homePage = App.NavigationPage.Navigation.NavigationStack.First();
-			App.NavigationPage.Navigation.InsertPageBefore(loginPage, homePage);
-			await App.NavigationPage.PopToRootAsync(false);
+			if (e.SelectedItem is Helpers.MenuItem item && !(item is null))
+			{
+				App.RootPage.IsPresented = false;
+				App.NavigationPage.PushAsync(item.Page);
+				if (sender is ListView listView) { listView.SelectedItem = null; }
+			}
 		}
 	}
 }

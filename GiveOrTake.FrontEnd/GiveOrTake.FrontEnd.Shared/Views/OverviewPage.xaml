@@ -2,35 +2,53 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GiveOrTake.FrontEnd.Shared.Views.OverviewPage"
-			 xmlns:chart="clr-namespace:Syncfusion.SfChart.XForms;assembly=Syncfusion.SfChart.XForms">
+			 xmlns:chart="clr-namespace:Syncfusion.SfChart.XForms;assembly=Syncfusion.SfChart.XForms"
+			 Title="Overview">
 	<ContentPage.Content>
-		<!--Pie Chart-->
-		<Grid>
+		<Grid BackgroundColor="White">
 			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
 				<RowDefinition Height="*"/>
 				<RowDefinition Height="*"/>
 			</Grid.RowDefinitions>
-			<chart:SfChart>
-				<chart:SfChart.Legend>
-					<chart:ChartLegend/>
-				</chart:SfChart.Legend>
-
-				<chart:SfChart.Series>
-					<chart:DoughnutSeries ItemsSource="{Binding Data}"
+			<StackLayout IsVisible="{Binding IsBusy}">
+				<ActivityIndicator Grid.Row="0"
+							   IsRunning="True"
+							   HeightRequest="32"
+							   WidthRequest="200"
+							   HorizontalOptions="FillAndExpand"
+							   Color="{StaticResource Primary}"/>
+				<Label Text="{Binding BusyMessage}"
+					   HorizontalOptions="CenterAndExpand"/>
+			</StackLayout>
+			<!--Pie Chart-->
+			<StackLayout>
+				<chart:SfChart Grid.Row="1"
+						   IsVisible="{Binding User.Transaction, Converter={StaticResource UserTransactionsCountToVisibilityConverter}}">
+					<chart:SfChart.Legend>
+						<chart:ChartLegend/>
+					</chart:SfChart.Legend>
+					<chart:SfChart.Series>
+						<chart:DoughnutSeries ItemsSource="{Binding Statistics}"
 										  XBindingPath="Label"
 										  YBindingPath="Value" 
 										  Label="Label"
 										  EnableSmartLabels="True"
 										  ConnectorLineType = "Bezier" 
 										  DataMarkerPosition = "OutsideExtended">
-						<chart:PieSeries.DataMarker>
-							<chart:ChartDataMarker />
-						</chart:PieSeries.DataMarker>
-					</chart:DoughnutSeries>
-				</chart:SfChart.Series>
-			</chart:SfChart>
+							<chart:PieSeries.DataMarker>
+								<chart:ChartDataMarker />
+							</chart:PieSeries.DataMarker>
+						</chart:DoughnutSeries>
+					</chart:SfChart.Series>
+				</chart:SfChart>
+				<Label Text="All caught up... No transactions up ahead."
+					   IsVisible="{Binding ShowNoTransactions}"/>
+			</StackLayout>
+
 			<!--Recents-->
-			<StackLayout Grid.Row="1">
+			<StackLayout Grid.Row="2"
+						 IsVisible="{Binding ShowNoTransactions}">
 				<Label Text="Recents"/>
 			</StackLayout>
 		</Grid>

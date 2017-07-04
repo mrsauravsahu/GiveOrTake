@@ -8,10 +8,7 @@ namespace GiveOrTake.FrontEnd.Shared.ViewModels
 {
 	public class BaseViewModel : ObservableObject
 	{
-		/// <summary>
-		/// Get the azure service instance
-		/// </summary>
-		public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
+		public DataStore DataStore => DependencyService.Get<DataStore>();
 
 		bool isBusy = false;
 		public bool IsBusy

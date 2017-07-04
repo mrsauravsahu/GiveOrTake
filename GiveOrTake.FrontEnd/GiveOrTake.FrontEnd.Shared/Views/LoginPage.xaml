@@ -1,19 +1,47 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GiveOrTake.FrontEnd.Shared.Views.LoginPage">
+             x:Class="GiveOrTake.FrontEnd.Shared.Views.LoginPage"
+			 Title="Login">
 	<ContentPage.Content>
-		<StackLayout>
-			<Label Text="Hello, there!" />
-			<Label Text="login" />
-			<Entry Placeholder="user name" />
-
-			<Label Text="password"/>
-			<Entry Placeholder="password"
-				   IsPassword="True"/>
-
-			<Button Text="login"/>
-			<Button Text="facebook"/>
-		</StackLayout>
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="*"/>
+			</Grid.RowDefinitions>
+			<StackLayout Padding="20, 8">
+				<Label Text="GiveOrTake"
+				   FontAttributes="Bold"
+				   FontSize="Large"
+				   HorizontalOptions="Center"
+				   Margin="8, 20, 8, 20"
+				   IsEnabled="{Binding IsBusy, Converter={StaticResource IsBusyToIsFreeConverter}}"/>
+				<Label Text="Admin Credentials"
+				   HorizontalOptions="Center" />
+				<Label Text="Name"/>
+				<Entry Placeholder="user name"
+				   IsEnabled="{Binding IsBusy, Converter={StaticResource IsBusyToIsFreeConverter}}"/>
+				<Label Text="Password"/>
+				<Entry Placeholder="password"
+				   IsPassword="True"
+				   IsEnabled="{Binding IsBusy, Converter={StaticResource IsBusyToIsFreeConverter}}"/>
+				<Button Text="Login"/>
+				<BoxView HeightRequest="1"
+					 Color="DarkGray"
+					 Margin="0, 20"/>
+				<Button Text="Facebook"
+					BackgroundColor="#4267B2"
+					IsEnabled="{Binding IsBusy, Converter={StaticResource IsBusyToIsFreeConverter}}"/>
+				<Button Text="Sign in Later"
+					Clicked="OnSignInLaterButtonClick"
+					IsEnabled="{Binding IsBusy, Converter={StaticResource IsBusyToIsFreeConverter}}"/>
+			</StackLayout>
+			<ActivityIndicator Grid.Row="1"
+							   IsRunning="{Binding IsBusy}"
+							   HeightRequest="200"
+							   WidthRequest="200"
+							   HorizontalOptions="FillAndExpand"
+							   Color="{StaticResource Primary}"/>
+		</Grid>
 	</ContentPage.Content>
 </ContentPage>

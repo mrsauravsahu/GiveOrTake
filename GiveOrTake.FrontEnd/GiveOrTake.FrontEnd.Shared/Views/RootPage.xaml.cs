@@ -12,9 +12,9 @@ namespace GiveOrTake.FrontEnd.Shared.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class RootPage : MasterDetailPage
 	{
-		public RootPage ()
+		public RootPage()
 		{
-			InitializeComponent ();
+			InitializeComponent();
 			MasterBehavior = MasterBehavior.Popover;
 		}
 	}
