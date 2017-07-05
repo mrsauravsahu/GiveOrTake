@@ -14,8 +14,15 @@ namespace GiveOrTake.FrontEnd.Shared.ViewModels
 		public bool IsBusy
 		{
 			get { return isBusy; }
-			set { SetProperty(ref isBusy, value); }
+			set
+			{
+				SetProperty(ref isBusy, value);
+				SetProperty(ref isFree, !(bool)value, nameof(IsFree));
+			}
 		}
+
+		bool isFree = true;
+		public bool IsFree => isFree;
 		/// <summary>
 		/// Private backing field to hold the title
 		/// </summary>

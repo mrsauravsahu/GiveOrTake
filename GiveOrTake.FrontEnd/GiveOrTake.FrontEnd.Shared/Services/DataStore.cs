@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Microsoft.EntityFrameworkCore;
+using GiveOrTake.Database;
 
 [assembly: Dependency(typeof(GiveOrTake.FrontEnd.Shared.Services.DataStore))]
 namespace GiveOrTake.FrontEnd.Shared.Services
@@ -15,17 +16,17 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 	{
 		ApplicationDbContext context;
 		bool isInitialized;
-		List<Item> items;
+		List<Models.Item> items;
 
 		public DataStore()
 		{
 			context = new ApplicationDbContext(App.DatabasePath);
-			context.Database.EnsureCreated();
+			//context.Database.EnsureCreated();
 		}
 
 		~DataStore() { context.Dispose(); }
 
-		public async Task<bool> AddItemAsync(Item item)
+		public async Task<bool> AddItemAsync(Models.Item item)
 		{
 			await InitializeAsync();
 
@@ -34,35 +35,35 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 			return await Task.FromResult(true);
 		}
 
-		public async Task<bool> UpdateItemAsync(Item item)
+		public async Task<bool> UpdateItemAsync(Models.Item item)
 		{
 			await InitializeAsync();
 
-			var _item = items.Where((Item arg) => arg.Id == item.Id).FirstOrDefault();
+			var _item = items.Where((Models.Item arg) => arg.Id == item.Id).FirstOrDefault();
 			items.Remove(_item);
 			items.Add(item);
 
 			return await Task.FromResult(true);
 		}
 
-		public async Task<bool> DeleteItemAsync(Item item)
+		public async Task<bool> DeleteItemAsync(Models.Item item)
 		{
 			await InitializeAsync();
 
-			var _item = items.Where((Item arg) => arg.Id == item.Id).FirstOrDefault();
+			var _item = items.Where((Models.Item arg) => arg.Id == item.Id).FirstOrDefault();
 			items.Remove(_item);
 
 			return await Task.FromResult(true);
 		}
 
-		public async Task<Item> GetItemAsync(string id)
+		public async Task<Models.Item> GetItemAsync(string id)
 		{
 			await InitializeAsync();
 
 			return await Task.FromResult(items.FirstOrDefault(s => s.Id == id));
 		}
 
-		public async Task<IEnumerable<Item>> GetItemsAsync(bool forceRefresh = false)
+		public async Task<IEnumerable<Models.Item>> GetItemsAsync(bool forceRefresh = false)
 		{
 			await InitializeAsync();
 
@@ -94,7 +95,7 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 					//Get all other devices transactions.
 					//Get all items.
 
-					items = new List<Item>();
+					items = new List<Models.Item>();
 					isInitialized = true;
 				}
 			});
@@ -118,6 +119,7 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 			{
 				newUser = (await context.AddAsync(new Database.User
 				{
+					UserId = Guid.NewGuid().ToString(),
 					FirstName = "",
 					MiddleName = "",
 					LastName = "",
@@ -126,7 +128,8 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 				await context.AddAsync(new Database.Device
 				{
 					UserId = newUser.UserId,
-					Name = "This Device"
+					Name = "This Device",
+					DeviceId = Guid.NewGuid(),
 					//TODO
 				});
 			}
@@ -148,7 +151,7 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 					{
 						Name = item.Name,
 						ItemId = item.ItemId,
-						UserId = id
+						UserId = id,
 					});
 
 				await context.AddRangeAsync(
@@ -178,10 +181,43 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 				await context.AddAsync(new Database.Device
 				{
 					UserId = user.UserId,
-					Name = "This Device"
+					Name = "This Device",
+					DeviceId = Guid.NewGuid()
 					//TODO
 				});
 			}
+
+			await context.SaveChangesAsync();
+		}
+
+		public async Task AddTransactionAsync(Transaction t, string itemName)
+		{
+			Database.Item item;
+
+			var user = await context.Users.Include(p => p.Device).FirstOrDefaultAsync();
+
+			item = await context.Items.Where(p => p.Name.ToUpper() == itemName.ToUpper()).FirstOrDefaultAsync();
+			if (item is null)
+				item = (await context.AddAsync(new Database.Item
+				{
+					Name = itemName,
+					UserId = user.UserId,
+					ItemId = Guid.NewGuid()
+				})).Entity;
+
+			await context.AddAsync(new Transaction
+			{
+				TransactionId = Guid.NewGuid(),
+				Name = t.Name,
+				Description = t.Description,
+				ItemId = item.ItemId,
+				UserId = user.UserId,
+				OccurrenceDate = t.OccurrenceDate,
+				ExpectedCompletionDate = t.ExpectedCompletionDate,
+				CompletionDate = null,
+				TransactionType = t.TransactionType,
+				DeviceId = user.Device.FirstOrDefault().DeviceId
+			});
 
 			await context.SaveChangesAsync();
 		}
