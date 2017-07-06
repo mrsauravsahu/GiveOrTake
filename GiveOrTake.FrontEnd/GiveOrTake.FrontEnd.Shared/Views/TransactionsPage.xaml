@@ -6,14 +6,15 @@
 	<ContentPage.Content>
 		<StackLayout>
 			<ListView x:Name="ItemsListView"
-				ItemsSource="{Binding Transactions}"
-                VerticalOptions="FillAndExpand"
-                RefreshCommand="{Binding LoadTransactionsCommand}"
-                IsPullToRefreshEnabled="true"
-                IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-                CachingStrategy="RecycleElement"
-				HasUnevenRows="True"
-					  MinimumHeightRequest="48">
+					  ItemsSource="{Binding Transactions}"
+					  VerticalOptions="FillAndExpand"
+					  RefreshCommand="{Binding LoadTransactionsCommand}"
+					  IsPullToRefreshEnabled="true"
+					  IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+					  CachingStrategy="RecycleElement"
+					  HasUnevenRows="True"
+					  MinimumHeightRequest="48"
+					  ItemTapped="OnTransactionTapped">
 				<ListView.ItemTemplate>
 					<DataTemplate>
 						<ViewCell>

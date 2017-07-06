@@ -3,6 +3,7 @@ using GiveOrTake.FrontEnd.Shared.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -21,7 +22,7 @@ namespace GiveOrTake.FrontEnd.Shared.ViewModels
 			LoadTransactionsCommand = new Command(async () => await ExecuteLoadTransactionsCommand());
 
 		}
-			public async Task ExecuteLoadTransactionsCommand()
+		public async Task ExecuteLoadTransactionsCommand()
 		{
 			if (IsBusy)
 				return;
@@ -31,7 +32,10 @@ namespace GiveOrTake.FrontEnd.Shared.ViewModels
 			try
 			{
 				Transactions.Clear();
-				var transactions = await DataStore.GetTransactionsAsync();
+				var transactions = (await DataStore.GetTransactionsAsync())
+					.ToList()
+					.OrderBy(p => p.IsComplete);
+
 				Transactions.ReplaceRange(transactions);
 			}
 			catch (Exception ex)

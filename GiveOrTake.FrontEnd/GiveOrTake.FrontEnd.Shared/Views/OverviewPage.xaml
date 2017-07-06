@@ -39,14 +39,22 @@
 				</chart:SfChart>
 				<Label Text="You don't have any transactions to show."
 					   IsVisible="{Binding ShowNoTransactions, Mode=OneWay}"/>
-				<Label Text="Upcoming transactions"
-					   FontSize="Medium"
-					   FontAttributes="Bold"
-					   IsVisible="{Binding ShowTransactions, Mode=OneWay}" />
 				<ListView x:Name="ItemsListView"
 						  ItemsSource="{Binding UpcomingTransactions}"
 						  VerticalOptions="FillAndExpand"
-						  RowHeight="48">
+						  RowHeight="48"
+						  Header="Your upcoming transactions"
+						  IsEnabled="False"
+						  IsVisible="{Binding UpcomingTransactions.Count, Converter={StaticResource CollectionCountToBooleanConverter}}">
+					<ListView.HeaderTemplate>
+						<DataTemplate>
+							<StackLayout>
+								<Label Text="{Binding}"
+									   FontSize="Medium"
+									   FontAttributes="Bold"/>
+							</StackLayout>
+						</DataTemplate>
+					</ListView.HeaderTemplate>
 					<ListView.ItemTemplate>
 						<DataTemplate>
 							<ViewCell>

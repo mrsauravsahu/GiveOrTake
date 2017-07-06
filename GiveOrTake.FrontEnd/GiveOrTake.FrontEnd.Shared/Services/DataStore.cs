@@ -26,6 +26,18 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 
 		~DataStore() { context.Dispose(); }
 
+		internal async Task DeleteTransactionAsync(Guid transactionId)
+		{
+			var transaction = await context.Transactions
+				.Where(p => p.TransactionId.ToString() == transactionId.ToString())
+				.FirstOrDefaultAsync();
+			if (!(transaction is null))
+			{
+				context.Transactions.Remove(transaction);
+				await context.SaveChangesAsync();
+			}
+		}
+
 		public async Task<bool> AddItemAsync(Models.Item item)
 		{
 			await InitializeAsync();
@@ -33,6 +45,20 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 			items.Add(item);
 
 			return await Task.FromResult(true);
+		}
+
+		internal async Task SetTransactionCompleteAsync(Guid transactionId)
+		{
+			var id = transactionId.ToString();
+			var transaction = await context.Transactions
+				.Where(p => p.TransactionId.ToString() == id)
+				.FirstOrDefaultAsync();
+
+			if (!(transaction is null))
+			{
+				transaction.CompletionDate = DateTime.Now;
+				await context.SaveChangesAsync();
+			}
 		}
 
 		public async Task<bool> UpdateItemAsync(Models.Item item)
@@ -75,7 +101,6 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 			return Task.FromResult(true);
 		}
 
-
 		public Task<bool> SyncAsync()
 		{
 			return Task.FromResult(true);
@@ -100,6 +125,7 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 				}
 			});
 		}
+
 		public async Task<Database.User> GetUserDetails()
 		{
 			return await context.Users
@@ -228,6 +254,7 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 				.Include(p => p.Item)
 				.FirstOrDefaultAsync())?.Item?.ToList();
 		}
+
 		public async Task<List<Database.Transaction>> GetTransactionsAsync()
 		{
 			return (await context.Users

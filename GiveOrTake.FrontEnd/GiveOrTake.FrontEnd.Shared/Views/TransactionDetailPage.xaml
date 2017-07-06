@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GiveOrTake.FrontEnd.Shared.Views.TransactionDetailPage"
+			 Title="Details">
+	<ContentPage.ToolbarItems>
+		<ToolbarItem x:Name="EditToolbarItem" Text="Edit" />
+		<ToolbarItem x:Name="CompleteToolbarItem" Text="Complete" />
+		<ToolbarItem x:Name="DeleteToolbarItem" Text="Delete" />
+	</ContentPage.ToolbarItems>
+	<ContentPage.Content>
+		<ScrollView>
+			<StackLayout Padding="8">
+				<Label Text="{Binding Name}"
+						   FontSize="Large"
+						   FontAttributes="Bold"
+						   Margin="0, 8"/>
+				<Label Text="COMPLETED"
+					   IsVisible="{Binding IsComplete}"
+					   FontSize="Small"
+					   TextColor="{StaticResource WarningColor}"
+					   Margin="0, 8"/>
+
+				<Label Text="{Binding Description}"
+					   LineBreakMode="WordWrap"
+					   FontSize="Medium"
+					   Margin="0, 0, 0, 8"/>
+				<StackLayout Orientation="Horizontal"
+							 Margin="0, 0, 0, 8">
+					<Label Text="Item Exchanged: "
+						   FontSize="Medium"/>
+					<Label Text="{Binding Item.Name}"
+						   FontSize="Medium"
+						   FontAttributes="Bold"/>
+				</StackLayout>
+				<StackLayout Orientation="Horizontal"
+							 Margin="0, 0, 0, 8">
+					<Label Text="Added On: "/>
+					<Label Text="{Binding OccurrenceDate, StringFormat='{0:MMMM dd, yyyy}'}"
+						   FontAttributes="Bold"/>
+				</StackLayout>
+				<StackLayout Orientation="Horizontal"
+							 Margin="0, 0, 0, 8">
+					<Label Text="Expected to be returned on: "/>
+					<Label Text="{Binding ExpectedCompletionDate, StringFormat='{0:MMMM dd, yyyy}'}"
+						   FontAttributes="Bold"/>
+				</StackLayout>
+			</StackLayout>
+		</ScrollView>
+	</ContentPage.Content>
+</ContentPage>

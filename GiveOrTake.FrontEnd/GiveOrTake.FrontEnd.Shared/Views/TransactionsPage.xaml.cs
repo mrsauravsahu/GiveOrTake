@@ -1,4 +1,5 @@
-﻿using GiveOrTake.FrontEnd.Shared.ViewModels;
+﻿using GiveOrTake.Database;
+using GiveOrTake.FrontEnd.Shared.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,12 @@ namespace GiveOrTake.FrontEnd.Shared.Views
 		{
 			base.OnAppearing();
 			await viewModel.ExecuteLoadTransactionsCommand();
+		}
+
+		private async void OnTransactionTapped(object sender, ItemTappedEventArgs e)
+		{
+			await Navigation.PushAsync(new TransactionDetailPage(e.Item as Transaction));
+			(sender as ListView).SelectedItem = null;
 		}
 	}
 }

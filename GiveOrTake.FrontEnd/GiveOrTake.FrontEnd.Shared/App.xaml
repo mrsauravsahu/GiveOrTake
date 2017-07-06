@@ -12,7 +12,8 @@
 			<Color x:Key="DarkBackgroundColor">#C0C0C0</Color>
 			<Color x:Key="MediumGrayTextColor">#4d4d4d</Color>
 			<Color x:Key="LightTextColor">#999999</Color>
-
+			<Color x:Key="WarningColor">##EE6D17</Color>
+			
 			<Style TargetType="NavigationPage">
 				<Setter Property="BarBackgroundColor" Value="{StaticResource Primary}" />
 				<Setter Property="BarTextColor" Value="White" />
@@ -21,6 +22,9 @@
 			<converters:IsBusyToIsFreeConverter x:Key="IsBusyToIsFreeConverter" />
 			<converters:UserTransactionsCountToVisibilityConverter x:Key="UserTransactionsCountToVisibilityConverter" />
 			<converters:UserTransactionsCountToVisibilityReverseConverter x:Key="UserTransactionsCountToVisibilityReverseConverter" />
+			<converters:IsCompleteToStringMessageConverter x:Key="IsCompleteToStringMessageConverter" />
+			<converters:BooleanReverseConverter x:Key="BooleanReverseConverter" />
+			<converters:CollectionCountToBooleanConverter x:Key="CollectionCountToBooleanConverter" />
 		</ResourceDictionary>
 	</Application.Resources>
 </Application>
