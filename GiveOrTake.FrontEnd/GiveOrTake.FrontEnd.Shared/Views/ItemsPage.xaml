@@ -12,6 +12,7 @@
                 RefreshCommand="{Binding LoadItemsCommand}"
                 IsPullToRefreshEnabled="true"
                 IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+				IsEnabled="False"
                 CachingStrategy="RecycleElement"
 				RowHeight="48">
         <ListView.ItemTemplate>
