@@ -6,7 +6,7 @@
 			 Title="Overview">
 	<ContentPage.Content>
 		<Grid BackgroundColor="White"
-			  Padding="8">
+			  Padding="8, 8, 8, 0">
 			<StackLayout>
 				<StackLayout IsVisible="{Binding IsBusy, Mode=OneWay}">
 					<ActivityIndicator Grid.Row="0"
@@ -39,8 +39,30 @@
 				</chart:SfChart>
 				<Label Text="You don't have any transactions to show."
 					   IsVisible="{Binding ShowNoTransactions, Mode=OneWay}"/>
-				<Label Text="Recents"
+				<Label Text="Upcoming transactions"
+					   FontSize="Medium"
+					   FontAttributes="Bold"
 					   IsVisible="{Binding ShowTransactions, Mode=OneWay}" />
+				<ListView x:Name="ItemsListView"
+						  ItemsSource="{Binding UpcomingTransactions}"
+						  VerticalOptions="FillAndExpand"
+						  RowHeight="48">
+					<ListView.ItemTemplate>
+						<DataTemplate>
+							<ViewCell>
+								<Grid Padding="0, 10">
+									<Label Text="{Binding Name}"
+									   LineBreakMode="NoWrap"
+									   Style="{DynamicResource ListItemTextStyle}"
+									   FontSize="Medium"/>
+									<Label Text="{Binding ExpectedCompletionDate, StringFormat='{0:MMMM dd, yyyy}'}"
+										   VerticalOptions="Center"
+										   HorizontalOptions="End"/>
+								</Grid>
+							</ViewCell>
+						</DataTemplate>
+					</ListView.ItemTemplate>
+				</ListView>
 			</StackLayout>
 		</Grid>
 	</ContentPage.Content>

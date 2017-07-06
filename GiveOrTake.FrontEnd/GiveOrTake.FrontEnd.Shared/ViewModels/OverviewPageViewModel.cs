@@ -42,6 +42,14 @@ namespace GiveOrTake.FrontEnd.Shared.ViewModels
 			set { SetProperty(ref showTransactions, value); }
 		}
 
+		private ObservableCollection<Transaction> upcomingTransactions;
+
+		public ObservableCollection<Transaction> UpcomingTransactions
+		{
+			get { return upcomingTransactions; }
+			set { SetProperty(ref upcomingTransactions, value); }
+		}
+
 
 		public async Task LoadUserDetailsAsync()
 		{
@@ -57,16 +65,9 @@ namespace GiveOrTake.FrontEnd.Shared.ViewModels
 			{
 				this.User = await DataStore.GetUserDetails();
 
-				//this.Statistics[0].Value = (from u in User.Transaction
-				//							where u.TransactionType == TransactionType.Give
-				//							select u).Count();
-				//this.Statistics[1].Value = (from u in User.Transaction
-				//							where u.TransactionType == TransactionType.Take
-				//							select u).Count();
-
 				var givenCount = (from u in User.Transaction
-								 where u.TransactionType == TransactionType.Give
-								 select u).Count();
+								  where u.TransactionType == TransactionType.Give
+								  select u).Count();
 				var takenCount = (from u in User.Transaction
 								  where u.TransactionType == TransactionType.Take
 								  select u).Count();
@@ -84,6 +85,15 @@ namespace GiveOrTake.FrontEnd.Shared.ViewModels
 						Label = "Borrowed",
 						Value = takenCount
 					});
+
+				UpcomingTransactions.Clear();
+
+				User.Transaction
+					.Where(t => t.IsComplete == false)
+					.OrderBy(p => p.ExpectedCompletionDate)
+					.Take(3)
+					.ToList()
+					.ForEach(p => UpcomingTransactions.Add(p));
 
 				ShowNoTransactions = (user.Transaction.Count == 0);
 				ShowTransactions = !ShowNoTransactions;
@@ -108,6 +118,7 @@ namespace GiveOrTake.FrontEnd.Shared.ViewModels
 		public OverviewPageViewModel()
 		{
 			User = new User();
+			upcomingTransactions = new ObservableCollection<Transaction>();
 			Statistics = new ObservableCollection<DataPoint>()
 			{
 				new DataPoint { Label = "Lent", Value = 0 },
