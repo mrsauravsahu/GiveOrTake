@@ -21,7 +21,7 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 		public DataStore()
 		{
 			context = new ApplicationDbContext(App.DatabasePath);
-			//context.Database.EnsureCreated();
+			context.Database.EnsureCreated();
 		}
 
 		~DataStore() { context.Dispose(); }

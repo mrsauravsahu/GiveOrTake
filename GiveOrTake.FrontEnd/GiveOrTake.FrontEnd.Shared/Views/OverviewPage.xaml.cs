@@ -1,5 +1,6 @@
 ﻿using GiveOrTake.FrontEnd.Shared.Helpers;
 using GiveOrTake.FrontEnd.Shared.ViewModels;
+using Syncfusion.SfChart.XForms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,11 +21,14 @@ namespace GiveOrTake.FrontEnd.Shared.Views
 		{
 			InitializeComponent();
 			BindingContext = viewModel = new OverviewPageViewModel();
+
+			Binding binding = new Binding("Statistics");
+			doughnutSeries.SetBinding(ChartSeries.ItemsSourceProperty, binding);
 		}
 		protected override async void OnAppearing()
 		{
 			base.OnAppearing();
-			await viewModel.LoadUserDetails();
+			await viewModel.LoadUserDetailsAsync();
 		}
 	}
 }

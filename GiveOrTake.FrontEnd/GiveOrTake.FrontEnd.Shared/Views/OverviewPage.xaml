@@ -5,7 +5,8 @@
 			 xmlns:chart="clr-namespace:Syncfusion.SfChart.XForms;assembly=Syncfusion.SfChart.XForms"
 			 Title="Overview">
 	<ContentPage.Content>
-		<Grid BackgroundColor="White">
+		<Grid BackgroundColor="White"
+			  Padding="8">
 			<StackLayout>
 				<StackLayout IsVisible="{Binding IsBusy, Mode=OneWay}">
 					<ActivityIndicator Grid.Row="0"
@@ -23,7 +24,7 @@
 						<chart:ChartLegend/>
 					</chart:SfChart.Legend>
 					<chart:SfChart.Series>
-						<chart:DoughnutSeries ItemsSource="{Binding Statistics, Mode=OneWay}"
+						<chart:DoughnutSeries x:Name="doughnutSeries"
 										  XBindingPath="Label"
 										  YBindingPath="Value" 
 										  Label="Label"
@@ -36,7 +37,7 @@
 						</chart:DoughnutSeries>
 					</chart:SfChart.Series>
 				</chart:SfChart>
-				<Label Text="All caught up... No transactions up ahead."
+				<Label Text="You don't have any transactions to show."
 					   IsVisible="{Binding ShowNoTransactions, Mode=OneWay}"/>
 				<Label Text="Recents"
 					   IsVisible="{Binding ShowTransactions, Mode=OneWay}" />

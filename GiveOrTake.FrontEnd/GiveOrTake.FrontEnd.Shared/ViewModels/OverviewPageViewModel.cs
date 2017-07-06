@@ -14,7 +14,7 @@ namespace GiveOrTake.FrontEnd.Shared.ViewModels
 {
 	class OverviewPageViewModel : BaseViewModel
 	{
-		public ObservableRangeCollection<DataPoint> Statistics { get; set; }
+		public ObservableCollection<DataPoint> Statistics { get; set; }
 
 		public User user;
 		public User User
@@ -25,7 +25,7 @@ namespace GiveOrTake.FrontEnd.Shared.ViewModels
 
 		private Command loadUserDetailsCommand;
 		public Command LoadUserDetailsCommand =>
-		(loadUserDetailsCommand ?? (loadUserDetailsCommand = new Command(async () => await LoadUserDetails())));
+		(loadUserDetailsCommand ?? (loadUserDetailsCommand = new Command(async () => await LoadUserDetailsAsync())));
 
 		private bool showNoTransactions;
 
@@ -43,7 +43,7 @@ namespace GiveOrTake.FrontEnd.Shared.ViewModels
 		}
 
 
-		public async Task LoadUserDetails()
+		public async Task LoadUserDetailsAsync()
 		{
 			if (IsBusy == true) return;
 
@@ -57,23 +57,33 @@ namespace GiveOrTake.FrontEnd.Shared.ViewModels
 			{
 				this.User = await DataStore.GetUserDetails();
 
-				this.Statistics.ReplaceRange(new List<DataPoint>
-				{
+				//this.Statistics[0].Value = (from u in User.Transaction
+				//							where u.TransactionType == TransactionType.Give
+				//							select u).Count();
+				//this.Statistics[1].Value = (from u in User.Transaction
+				//							where u.TransactionType == TransactionType.Take
+				//							select u).Count();
+
+				var givenCount = (from u in User.Transaction
+								 where u.TransactionType == TransactionType.Give
+								 select u).Count();
+				var takenCount = (from u in User.Transaction
+								  where u.TransactionType == TransactionType.Take
+								  select u).Count();
+
+				this.Statistics.Clear();
+				this.Statistics.Add(
 					new DataPoint
 					{
 						Label = "Lent",
-						Value = (from u in User.Transaction
-								 where u.TransactionType == TransactionType.Give
-								 select u).Count()
-					},
+						Value = givenCount
+					});
+				this.Statistics.Add(
 					new DataPoint
 					{
 						Label = "Borrowed",
-						Value = (from u in User.Transaction
-								 where u.TransactionType == TransactionType.Take
-								 select u).Count()
-					}
-				});
+						Value = takenCount
+					});
 
 				ShowNoTransactions = (user.Transaction.Count == 0);
 				ShowTransactions = !ShowNoTransactions;
@@ -98,7 +108,11 @@ namespace GiveOrTake.FrontEnd.Shared.ViewModels
 		public OverviewPageViewModel()
 		{
 			User = new User();
-			Statistics = new ObservableRangeCollection<DataPoint>();
+			Statistics = new ObservableCollection<DataPoint>()
+			{
+				new DataPoint { Label = "Lent", Value = 0 },
+				new DataPoint { Label = "Borrowed", Value = 0 }
+			};
 			ShowNoTransactions = false;
 			ShowTransactions = false;
 		}
