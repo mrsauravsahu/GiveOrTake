@@ -43,6 +43,7 @@ namespace GiveOrTake.FrontEnd.Shared.Views
 			base.OnAppearing();
 			this.Items = await DependencyService.Get<DataStore>().GetItemsAsync();
 			FilteredItemsListView.ItemsSource = EmptyList;
+			setTransactionTypeLabel(false);
 			updateListView(0);
 		}
 
@@ -71,9 +72,12 @@ namespace GiveOrTake.FrontEnd.Shared.Views
 		}
 
 		public void OnTransactionTypeToggled(object sender, ToggledEventArgs e)
+		{ setTransactionTypeLabel(e.Value); }
+
+		private void setTransactionTypeLabel(bool value)
 		{
-			TransactionTypeTextLabel.Text = e.Value ? "Borrowed" : "Lent";
-			viewModel.Transaction.TransactionType = e.Value ? Take : Give;
+			TransactionTypeTextLabel.Text = value ? "Borrowed" : "Lent";
+			viewModel.Transaction.TransactionType = value ? Take : Give;
 		}
 
 		public async void Cancel_Clicked(object sender, EventArgs e)

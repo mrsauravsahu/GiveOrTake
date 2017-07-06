@@ -19,24 +19,6 @@
 				<Entry Text="{Binding Transaction.Name, Mode=OneWayToSource}"
 					   IsEnabled="{Binding IsFree}"
 					   x:Name="NameEntry"/>
-
-				<Label Text="Occurrence Date"/>
-				<DatePicker Date="{Binding Transaction.OccurrenceDate, Mode=OneWayToSource}"
-							HorizontalOptions="StartAndExpand"
-							IsEnabled="{Binding IsFree}"
-							x:Name="OccurrenceDataDatePicker"/>
-
-				<Label Text="Expected Completion Date"/>
-				<DatePicker Date="{Binding Transaction.ExpectedCompletionDate, Mode=OneWayToSource}"
-							HorizontalOptions="StartAndExpand"
-							IsEnabled="{Binding IsFree}"
-							x:Name="ExpectedCompletionDateDatePicker"/>
-
-				<Label Text="Description" />
-				<Editor Text="{Binding Transaction.Description, Mode=OneWayToSource}"
-							HeightRequest="120"
-						IsEnabled="{Binding IsFree}"
-						x:Name="DescriptionEditor"/>
 				<Label Text="Item Exchanged"/>
 				<SearchBar Placeholder="Search for item exchanged"
 						   x:Name="ItemSearchBar"
@@ -57,13 +39,30 @@
 						</DataTemplate>
 					</ListView.ItemTemplate>
 				</ListView>
+				<Label Text="Occurrence Date"/>
+				<DatePicker Date="{Binding Transaction.OccurrenceDate, Mode=OneWayToSource}"
+							HorizontalOptions="StartAndExpand"
+							IsEnabled="{Binding IsFree}"
+							x:Name="OccurrenceDataDatePicker"/>
+
+				<Label Text="Expected Completion Date"/>
+				<DatePicker Date="{Binding Transaction.ExpectedCompletionDate, Mode=OneWayToSource}"
+							HorizontalOptions="StartAndExpand"
+							IsEnabled="{Binding IsFree}"
+							x:Name="ExpectedCompletionDateDatePicker"/>
+
+				<Label Text="Description" />
+				<Editor Text="{Binding Transaction.Description, Mode=OneWayToSource}"
+							HeightRequest="120"
+						IsEnabled="{Binding IsFree}"
+						x:Name="DescriptionEditor"/>
 				<Label Text="TransactionType" />
 				<StackLayout Orientation="Horizontal">
 					<Switch Toggled="OnTransactionTypeToggled"
 							IsEnabled="{Binding IsFree}"
 							x:Name="TransactionTypeSwitch"/>
 					<Label x:Name="TransactionTypeTextLabel"
-						   Margin="8, 0, 0, 0"
+						   Margin="8, 8, 0, 0"
 						   HeightRequest="48"
 						   VerticalOptions="FillAndExpand"/>
 				</StackLayout>
