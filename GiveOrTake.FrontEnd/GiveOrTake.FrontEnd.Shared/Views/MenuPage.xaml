@@ -7,6 +7,11 @@
 			<Grid HeightRequest="120"
 				  Padding="0, 16, 0, 0"
 				  BackgroundColor="#2196F3">
+				<Grid.IsVisible>
+					<OnPlatform x:TypeArguments="x:Boolean"
+								Android="True"
+								WinPhone="False"/>
+				</Grid.IsVisible>
 				<Label Text="GiveOrTake"
 					   FontAttributes="Bold"
 					   FontSize="Large"
