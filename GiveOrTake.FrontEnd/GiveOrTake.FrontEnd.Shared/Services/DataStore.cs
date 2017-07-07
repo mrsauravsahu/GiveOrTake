@@ -18,10 +18,20 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 		bool isInitialized;
 		List<Models.Item> items;
 
+		internal async Task<Database.Item> GetAssociatedItemAsync(Transaction t)
+		{
+			return await context.Items.Where(p => p.ItemId == t.ItemId).FirstAsync();
+		}
+
 		public DataStore()
 		{
 			context = new ApplicationDbContext(App.DatabasePath);
 			context.Database.EnsureCreated();
+		}
+
+		public Task<IEnumerable<Guid>> GetTransactionsIdsAsync()
+		{
+			throw new NotImplementedException();
 		}
 
 		~DataStore() { context.Dispose(); }
@@ -45,6 +55,11 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 			items.Add(item);
 
 			return await Task.FromResult(true);
+		}
+
+		internal Task ResolveConflictsAndSaveTransactionsAsync(Task<List<Transaction>> serverData)
+		{
+			return Task.CompletedTask;
 		}
 
 		internal async Task SetTransactionCompleteAsync(Guid transactionId)
@@ -250,16 +265,12 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 
 		public async Task<List<Database.Item>> GetItemsAsync()
 		{
-			return (await context.Users
-				.Include(p => p.Item)
-				.FirstOrDefaultAsync())?.Item?.ToList();
+			return await Task.Run(() => context.Items.ToList());
 		}
 
 		public async Task<List<Database.Transaction>> GetTransactionsAsync()
 		{
-			return (await context.Users
-				.Include(p => p.Transaction)
-				.FirstOrDefaultAsync())?.Transaction?.ToList();
+			return await Task.Run(() => context.Transactions.ToList());
 		}
 	}
 }

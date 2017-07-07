@@ -41,13 +41,13 @@
 				</ListView>
 				<Label Text="Occurrence Date"/>
 				<DatePicker Date="{Binding Transaction.OccurrenceDate, Mode=OneWayToSource}"
-							HorizontalOptions="StartAndExpand"
+							HorizontalOptions="FillAndExpand"
 							IsEnabled="{Binding IsFree}"
 							x:Name="OccurrenceDataDatePicker"/>
 
 				<Label Text="Expected Completion Date"/>
 				<DatePicker Date="{Binding Transaction.ExpectedCompletionDate, Mode=OneWayToSource}"
-							HorizontalOptions="StartAndExpand"
+							HorizontalOptions="FillAndExpand"
 							IsEnabled="{Binding IsFree}"
 							x:Name="ExpectedCompletionDateDatePicker"/>
 

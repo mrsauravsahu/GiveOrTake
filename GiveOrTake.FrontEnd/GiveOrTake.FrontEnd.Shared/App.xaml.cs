@@ -21,13 +21,7 @@ namespace GiveOrTake.FrontEnd.Shared
 
 			DatabasePath = databasePath;
 
-			var dataStore = DependencyService.Get<DataStore>();
-			var isLoggedIn = dataStore.IsLoggedIn();
-
-			if (isLoggedIn == false)
-				NavigationPage = new NavigationPage(new LoginPage());
-			else
-				NavigationPage = new NavigationPage(new OverviewPage());
+			NavigationPage = new NavigationPage(new OverviewPage());
 
 			MenuPage = new MenuPage();
 			RootPage = new RootPage

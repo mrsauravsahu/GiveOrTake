@@ -9,6 +9,7 @@ namespace GiveOrTake.FrontEnd.Shared.ViewModels
 	public class BaseViewModel : ObservableObject
 	{
 		public DataStore DataStore => DependencyService.Get<DataStore>();
+		public Server Server => DependencyService.Get<Server>();
 
 		bool isBusy = false;
 		public bool IsBusy
