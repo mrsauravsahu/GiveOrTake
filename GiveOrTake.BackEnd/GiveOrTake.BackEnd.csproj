@@ -15,6 +15,9 @@
     <None Remove="dbc\**" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="Controllers\TransactionsController.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Remove="wwwroot/js\package.json" />
   </ItemGroup>
   <ItemGroup>
