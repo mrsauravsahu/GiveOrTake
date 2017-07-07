@@ -18,7 +18,7 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 		{
 			try
 			{
-				var response = await NetworkCall.Instance.GetAsync(API.Transactions);
+				var response = await NetworkCall.Instance.GetAsync(API.Device);
 				response.EnsureSuccessStatusCode();
 
 				var data = await response.Content.ReadAsStringAsync();
@@ -53,10 +53,19 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 					}
 				};
 
-				await NetworkCall.Instance.PostAsync(API.Transactions, tran);
+				await NetworkCall.Instance.PostAsync(API.Device, tran);
 			}
 			catch { throw; }
 			return true;
+		}
+
+		public async Task SyncDataAsync()
+		{
+			var deviceId = new Guid(Settings.DeviceId);
+
+			var data = await DataStore.GetDataToSynchronizeForThisDeviceIdAsync(deviceId);
+
+			var response = await NetworkCall.Instance.PostAsync($"{API.Device}/{deviceId}", data);
 		}
 	}
 }

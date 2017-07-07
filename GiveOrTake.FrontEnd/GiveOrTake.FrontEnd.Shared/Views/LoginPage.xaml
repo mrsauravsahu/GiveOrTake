@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GiveOrTake.FrontEnd.Shared.Views.LoginPage"
+			 xmlns:views="clr-namespace:GiveOrTake.FrontEnd.Shared.Views"
 			 Title="Login">
 	<ContentPage.Content>
 		<Grid>
@@ -14,8 +15,7 @@
 				   FontAttributes="Bold"
 				   FontSize="Large"
 				   HorizontalOptions="Center"
-				   Margin="8, 20, 8, 20"
-				   IsEnabled="{Binding IsBusy, Converter={StaticResource IsBusyToIsFreeConverter}}"/>
+				   Margin="8, 20, 8, 20"/>
 				<Label Text="Admin Credentials"
 				   HorizontalOptions="Center" />
 				<Label Text="Name"/>
@@ -25,23 +25,22 @@
 				<Entry Placeholder="password"
 				   IsPassword="True"
 				   IsEnabled="{Binding IsBusy, Converter={StaticResource IsBusyToIsFreeConverter}}"/>
-				<Button Text="Login"/>
+				<Button Text="Login"
+						Command="{Binding LoginWithCredentialsCommand}"
+						IsEnabled="{Binding IsBusy, Converter={StaticResource IsBusyToIsFreeConverter}}"/>
 				<BoxView HeightRequest="1"
 					 Color="DarkGray"
 					 Margin="0, 20"/>
 				<Button Text="Facebook"
 					BackgroundColor="#4267B2"
+					Command="{Binding LoginWithFacebookCommand}"
 					IsEnabled="{Binding IsBusy, Converter={StaticResource IsBusyToIsFreeConverter}}"/>
 				<Button Text="Sign in Later"
 					Clicked="OnSignInLaterButtonClick"
 					IsEnabled="{Binding IsBusy, Converter={StaticResource IsBusyToIsFreeConverter}}"/>
 			</StackLayout>
-			<ActivityIndicator Grid.Row="1"
-							   IsRunning="{Binding IsBusy}"
-							   HeightRequest="200"
-							   WidthRequest="200"
-							   HorizontalOptions="FillAndExpand"
-							   Color="{StaticResource Primary}"/>
+			<views:LoadingView Message="{Binding BusyMessage}"
+							   IsVisible="{Binding IsBusy}" />
 		</Grid>
 	</ContentPage.Content>
 </ContentPage>

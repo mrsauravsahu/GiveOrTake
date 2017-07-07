@@ -1,5 +1,4 @@
-﻿using GiveOrTake.FrontEnd.Shared.Helpers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,11 +10,11 @@ using Xamarin.Forms.Xaml;
 namespace GiveOrTake.FrontEnd.Shared.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class SyncPage : ContentPage
+	public partial class FacebookLoginPage : ContentPage
 	{
-		public SyncPage()
+		public FacebookLoginPage()
 		{
-			InitializeComponent();
+			//InitializeComponent();
 		}
 	}
 }

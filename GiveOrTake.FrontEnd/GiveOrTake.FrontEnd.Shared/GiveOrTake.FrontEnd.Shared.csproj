@@ -15,14 +15,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Remove="Views\FacebookLoginPage.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Acr.UserDialogs" Version="6.5.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="1.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="1.1.2" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="PCLCrypto" Version="2.0.147" />
     <PackageReference Include="Syncfusion.Xamarin.SfChart" Version="15.2.0.43" />
     <PackageReference Include="Toasts.Forms.Plugin" Version="3.2.0" />
     <PackageReference Include="Xam.Plugin.Connectivity" Version="2.3.0" />
     <PackageReference Include="Xam.Plugins.Settings" Version="3.0.1" />
+    <PackageReference Include="Xamarin.Auth" Version="1.5.0.3" />
     <PackageReference Include="Xamarin.Forms" Version="2.3.4.231" />
   </ItemGroup>
 

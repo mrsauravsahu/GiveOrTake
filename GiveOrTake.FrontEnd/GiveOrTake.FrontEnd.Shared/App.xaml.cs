@@ -4,6 +4,7 @@ using Xamarin.Forms.Xaml;
 using System;
 using Plugin.Toasts;
 using GiveOrTake.FrontEnd.Shared.Services;
+using GiveOrTake.FrontEnd.Shared.Helpers;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace GiveOrTake.FrontEnd.Shared
@@ -34,14 +35,14 @@ namespace GiveOrTake.FrontEnd.Shared
 
 		protected override async void OnSleep()
 		{
-			var notificator = DependencyService.Get<IToastNotificator>();
+			//var notificator = DependencyService.Get<IToastNotificator>();
 
-			var result = await notificator.Notify(new NotificationOptions()
-			{
-				Title = "Hello!",
-				Description = "Check back in!",
-				DelayUntil = DateTime.UtcNow + TimeSpan.FromSeconds(10)
-			});
+			//var result = await notificator.Notify(new NotificationOptions()
+			//{
+			//	Title = "Hello!",
+			//	Description = "Check back in!",
+			//	DelayUntil = DateTime.UtcNow + TimeSpan.FromSeconds(10)
+			//});
 		}
 	}
 }

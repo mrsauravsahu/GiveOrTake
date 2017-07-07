@@ -1,4 +1,5 @@
-﻿using GiveOrTake.FrontEnd.Shared.Services;
+﻿using GiveOrTake.FrontEnd.Shared.Helpers;
+using GiveOrTake.FrontEnd.Shared.Services;
 using GiveOrTake.FrontEnd.Shared.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -25,15 +26,13 @@ namespace GiveOrTake.FrontEnd.Shared.Views
 
 		public async void OnSignInLaterButtonClick(object sender, EventArgs e)
 		{
-			this.viewModel.IsBusy = true;
+			await App.Current.MainPage.Navigation.PopModalAsync(true);
+		}
 
-			await DependencyService.Get<DataStore>().CreateUserAsync();
-			var otherPage = new OverviewPage();
-			var homePage = App.NavigationPage.Navigation.NavigationStack.First();
-			App.NavigationPage.Navigation.InsertPageBefore(otherPage, homePage);
-			await App.NavigationPage.PopToRootAsync(true);
-
-			this.viewModel.IsBusy = false;
+		public async void OnFacebookClick(object sender, EventArgs e)
+		{
+			if (Settings.FacebookAccessToken == string.Empty)
+				await App.Current.MainPage.Navigation.PushModalAsync(new FacebookLoginPage());
 		}
 	}
 }

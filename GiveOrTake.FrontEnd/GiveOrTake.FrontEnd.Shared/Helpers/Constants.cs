@@ -6,7 +6,7 @@
 	}
 	public static class API
 	{
-		public const string DomainUri = "https://giveortakebackend.azurewebsites.net/api";
-		public static string Transactions = $"{DomainUri}/transactions";
+		public const string DomainUri = "http://localhost:4201/api";
+		public static string Device = $"{DomainUri}/device";
 	}
 }

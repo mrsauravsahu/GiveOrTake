@@ -24,10 +24,12 @@ namespace GiveOrTake.FrontEnd.Shared.Helpers
 
 		#region Setting Constants
 
-		private const string SettingsKey = "settings_key";
 		private static readonly string DefaultValue = string.Empty;
 
+		private const string SettingsKey = "settings_key";
 		private const string AccessTokenKey = "access_token_settings_key";
+		private const string FacebookAccessTokenKey = "facebook_access_token_settings_key";
+		private const string ThisDeviceKey = "this_device_settings_key";
 
 		#endregion
 
@@ -42,6 +44,20 @@ namespace GiveOrTake.FrontEnd.Shared.Helpers
 		{
 			get { return AppSettings.GetValueOrDefault(AccessTokenKey, DefaultValue); }
 			set { AppSettings.AddOrUpdateValue(AccessTokenKey, value); }
+		}
+
+		public static string FacebookAccessToken
+		{
+			get { return AppSettings.GetValueOrDefault(FacebookAccessTokenKey, DefaultValue); }
+			set { AppSettings.AddOrUpdateValue(FacebookAccessTokenKey, value); }
+		}
+
+		public static bool IsLoggedIn => !String.IsNullOrWhiteSpace(AccessToken);
+
+		public static string DeviceId
+		{
+			get { return AppSettings.GetValueOrDefault(ThisDeviceKey, DefaultValue); }
+			set { AppSettings.AddOrUpdateValue(ThisDeviceKey, value); }
 		}
 	}
 }

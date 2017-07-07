@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GiveOrTake.FrontEnd.Shared.Helpers;
+using GiveOrTake.FrontEnd.Shared.Views;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +25,12 @@ namespace GiveOrTake.FrontEnd.Shared.ViewModels
 		{
 			if (IsBusy) return;
 
+			if (!Settings.IsLoggedIn)
+			{
+				await Application.Current.MainPage.Navigation.PushModalAsync(new LoginPage());
+				return;
+			}
+
 			CanSyncData(false);
 			IsBusy = true;
 
@@ -31,13 +39,14 @@ namespace GiveOrTake.FrontEnd.Shared.ViewModels
 				//Get transactions from ApplicationDbContext
 				var transactions = await DataStore.GetTransactionsAsync();
 
-				var count = transactions.Count;
 				//TODO: Send our transactions by looping over each transaction.
-				for (int i = 0; i < count; ++i)
-				{
-					await Server.SendTransactionAsync(transactions[i]);
-					BusyMessage = $"Sent {i} of {count} transactions...";
-				}
+				//for (int i = 0; i < count; ++i)
+				//{
+				//	await Server.SendTransactionAsync(transactions[i]);
+				//	BusyMessage = $"Sent {i} of {count} transactions...";
+				//}
+				busyMessage = "Sending transactions...";
+				await Server.SyncDataAsync();
 
 				//TODO: Get transactions from server
 				BusyMessage = "Resolving conflicts and retrieving data...";

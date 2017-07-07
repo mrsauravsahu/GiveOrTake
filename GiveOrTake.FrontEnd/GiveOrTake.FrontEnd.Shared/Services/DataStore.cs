@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Microsoft.EntityFrameworkCore;
 using GiveOrTake.Database;
+using GiveOrTake.FrontEnd.Shared.Helpers;
 
 [assembly: Dependency(typeof(GiveOrTake.FrontEnd.Shared.Services.DataStore))]
 namespace GiveOrTake.FrontEnd.Shared.Services
@@ -123,26 +124,15 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 
 		public async Task InitializeAsync()
 		{
-			if (isInitialized) return;
+			var usersCount = await context.Users.CountAsync();
 
-			await Task.Run(() =>
-			{
-				if (CrossConnectivity.Current.IsConnected == true)
-				{
-					//Send current device transactions.
-					//Send all items.
-
-					//Get all other devices transactions.
-					//Get all items.
-
-					items = new List<Models.Item>();
-					isInitialized = true;
-				}
-			});
+			if (usersCount == 0) await this.CreateUserAsync();
 		}
 
 		public async Task<Database.User> GetUserDetails()
 		{
+			await InitializeAsync();
+
 			return await context.Users
 				.Include(p => p.Device)
 				.Include(p => p.Transaction)
@@ -224,11 +214,12 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 					UserId = user.UserId,
 					Name = "This Device",
 					DeviceId = Guid.NewGuid()
-					//TODO
 				});
 			}
-
 			await context.SaveChangesAsync();
+
+			var thisDeviceId = context.Devices.First()?.DeviceId.ToString();
+			Settings.DeviceId = thisDeviceId;
 		}
 
 		public async Task AddTransactionAsync(Transaction t, string itemName)
@@ -271,6 +262,24 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 		public async Task<List<Database.Transaction>> GetTransactionsAsync()
 		{
 			return await Task.Run(() => context.Transactions.ToList());
+		}
+
+		public async Task<dynamic> GetDataToSynchronizeForThisDeviceIdAsync(Guid deviceId)
+		{
+			return await Task.Run(() =>
+			{
+				var transactions = context.Transactions
+				.Where(t => t.DeviceId == deviceId)
+				.ToList();
+
+				var items = context.Items.ToList();
+
+				return new
+				{
+					Transaction = transactions,
+					Item = items
+				};
+			});
 		}
 	}
 }
