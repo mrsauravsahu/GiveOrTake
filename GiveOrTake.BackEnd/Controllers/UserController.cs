@@ -26,8 +26,8 @@ namespace GiveOrTake.BackEnd.Controllers
 			return (from u in dbContext.Users
 					where u.UserId == userId
 					select u)
-					.Include(p => p.Items)
-					.Include(p => p.Transactions)
+					.Include(p => p.Item)
+					.Include(p => p.Transaction)
 					.FirstOrDefault();
 		}
 
@@ -49,72 +49,13 @@ namespace GiveOrTake.BackEnd.Controllers
 				select new { Name = u.Name });
 		}
 
-		[HttpPost]
-		[Route("delete-transaction")]
-		public async Task<IActionResult> DeleteTransaction([FromQuery] string id)
-		{
-			var jwtToken = Request.Headers[AuthHeaderKey].FirstOrDefault().Split(' ')[1];
-			var userId = new JwtSecurityTokenHandler().ReadJwtToken(jwtToken).Id;
-
-			//TODO: Check Parsing string to int on transactionId
-			var transactionId = int.Parse(id);
-
-
-			var transaction = (from t in dbContext.Transactions
-							   where t.TransactionId == transactionId && t.UserId == userId
-							   select t).FirstOrDefault();
-
-			if (transaction == null)
-				return new NotFoundResult();
-			else
-			{
-				dbContext.Transactions.Remove(transaction);
-				await dbContext.SaveChangesAsync();
-				return new OkResult();
-			}
-		}
-
-		[HttpPost]
-		[Route("add-edit-transaction")]
-		public async Task<IActionResult> AddEditTransaction([FromBody] Transaction transaction)
-		{
-			try
-			{
-				var user = GetUser(Request.Headers[AuthHeaderKey].First());
-				transaction.UserId = user.UserId;
-				transaction.User = user;
-				if (transaction.Item.ItemId == -1)
-				{
-					//New Item
-					transaction.Item = new Item
-					{
-						Name = transaction.Item.Name,
-						UserId = user.UserId,
-						User = user
-					};
-				}
-				if (transaction.TransactionId != -1)
-				{
-					var tr = (from t in user.Transactions
-							  where t.TransactionId == transaction.TransactionId
-							  select t).FirstOrDefault();
-					user.Transactions.Remove(tr);
-				}
-				user.Transactions.Add(transaction);
-				await dbContext.SaveChangesAsync();
-				return new OkResult();
-			}
-			catch { }
-			return new NotFoundResult();
-		}
-
 		[HttpGet]
 		[Route("items")]
 		public IActionResult GetItems()
 		{
 			var user = GetUser(Request.Headers[AuthHeaderKey].First());
 
-			return new ObjectResult(from i in user.Items
+			return new ObjectResult(from i in user.Item
 									select new
 									{
 										Name = i.Name,

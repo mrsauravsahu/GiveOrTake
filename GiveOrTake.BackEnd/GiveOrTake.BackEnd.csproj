@@ -18,7 +18,6 @@
     <Content Remove="wwwroot/js\package.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="scripts\Root_Login.ts" />
     <Content Include="wwwroot\css\Root_Index.css" />
     <Content Include="wwwroot\css\Root_Login.css" />
     <Content Include="wwwroot\css\styles.css" />

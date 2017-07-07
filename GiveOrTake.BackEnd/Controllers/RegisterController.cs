@@ -57,8 +57,8 @@ namespace GiveOrTake.BackEnd.Controllers
                     MiddleName = middleName != null ? middleName.Trim() : string.Empty,
                     LastName = lastName,
                     Email = email,
-                    Items = new List<Item>(),
-                    Transactions = new List<Transaction>()
+                    Item = new HashSet<Item>(),
+                    Transaction = new HashSet<Transaction>()
                 };
                 newUser.RootAccess = new RootAccess
                 { Password = passwordHasher.HashPassword(newUser, password) };

@@ -63,8 +63,8 @@ namespace GiveOrTake.BackEnd.Helpers
                 MiddleName = data.ContainsKey("middle_name") ? data["middle_name"] : string.Empty,
                 LastName = data["last_name"],
                 Email = data["email"],
-                Items = new List<Item>(),
-                Transactions = new List<Transaction>(),
+                Item = new HashSet<Item>(),
+                Transaction = new HashSet<Transaction>(),
                 RootAccess = null
             };
         }

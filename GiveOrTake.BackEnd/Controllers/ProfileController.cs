@@ -29,8 +29,8 @@ namespace GiveOrTake.BackEnd.Controllers
 			var user = (from u in dbContext.Users
 						where u.UserId == id
 						select u)
-							   .Include(u => u.Items)
-							   .Include(u => u.Transactions)
+							   .Include(u => u.Item)
+							   .Include(u => u.Transaction)
 							   .FirstOrDefault();
 
 			var result = new
@@ -40,15 +40,15 @@ namespace GiveOrTake.BackEnd.Controllers
 				MiddleName = user.MiddleName,
 				LastName = user.LastName,
 				Email = user.Email,
-				Items = user.Items.Select(i => new { ItemId = i.ItemId, Name = i.Name }),
-				Transactions = user.Transactions.Select(t => new
+				Items = user.Item.Select(i => new { ItemId = i.ItemId, Name = i.Name }),
+				Transactions = user.Transaction.Select(t => new
 				{
 					TransactionId = t.TransactionId,
 					Name = t.Name,
 					Description = t.Description,
 					TransactionType = t.TransactionType,
 					OccurrenceDate = t.OccurrenceDate,
-					ExpectedReturnDate = t.ExpectedReturnDate,
+					ExpectedReturnDate = t.ExpectedCompletionDate,
 					Item = new Item { Name = t.Item.Name }
 				})
 			};
