@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -17,8 +18,10 @@ namespace GiveOrTake.Database
 		[Required]
 
 		public string UserId { get; set; }
+		[JsonIgnore]
 		public User User { get; set; }
 
+		[JsonIgnore]
 		public HashSet<Transaction> Transaction { get; set; }
 	}
 }

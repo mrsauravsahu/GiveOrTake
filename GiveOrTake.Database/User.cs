@@ -1,4 +1,5 @@
 ﻿using GiveOrTake.Utilities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -46,9 +47,13 @@ namespace GiveOrTake.Database
 			}
 		}
 
+		[JsonIgnore]
 		public RootAccess RootAccess { get; set; }
+		[JsonIgnore]
 		public HashSet<Item> Item { get; set; }
+		[JsonIgnore]
 		public HashSet<Transaction> Transaction { get; set; }
+		[JsonIgnore]
 		public HashSet<Device> Device { get; set; }
 	}
 }

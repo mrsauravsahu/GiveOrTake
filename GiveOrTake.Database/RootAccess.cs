@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace GiveOrTake.Database
 {
@@ -13,6 +14,7 @@ namespace GiveOrTake.Database
 		[Required]
 		public string Password { get; set; }
 
+		[JsonIgnore]
 		public User User { get; set; }
 	}
 }
