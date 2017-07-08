@@ -1,9 +1,6 @@
 ﻿using GiveOrTake.FrontEnd.Shared.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using System;
-using Plugin.Toasts;
-using GiveOrTake.FrontEnd.Shared.Services;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace GiveOrTake.FrontEnd.Shared
@@ -20,10 +17,6 @@ namespace GiveOrTake.FrontEnd.Shared
 			InitializeComponent();
 
 			LocalFolderPath = localFolderPath;
-
-			var dataStore = DependencyService.Get<DataStore>();
-			var isLoggedIn = dataStore.IsLoggedIn();
-
 			NavigationPage = new NavigationPage(new OverviewPage());
 
 			MenuPage = new MenuPage();
