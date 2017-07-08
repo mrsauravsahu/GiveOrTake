@@ -25,17 +25,31 @@ namespace GiveOrTake.FrontEnd.Shared.Views
 		{
 			InitializeComponent();
 			EmptyList = new List<Database.Item>();
+			Items = new List<Database.Item>();
+
 			if (t is null)
 			{
 				Title = "Add Transaction";
-				viewModel = new AddOrEditTransactionPageViewModel(new Transaction { });
+				viewModel = new AddOrEditTransactionPageViewModel(new Transaction
+				{
+					Name = string.Empty,
+					OccurrenceDate = DateTime.Now,
+					ExpectedCompletionDate = DateTime.Now,
+					Description = string.Empty
+				});
 			}
 			else
 			{
 				Title = "Edit Transaction";
 				viewModel = new AddOrEditTransactionPageViewModel(t);
+				setupPage();
 			}
 			BindingContext = viewModel;
+		}
+
+		private void setupPage()
+		{
+			this.ItemSearchBar.Text = viewModel.Transaction.Item.Name;
 		}
 
 		protected override async void OnAppearing()
@@ -104,7 +118,7 @@ namespace GiveOrTake.FrontEnd.Shared.Views
 			viewModel.IsBusy = false;
 
 			cleanupPage();
-			await Navigation.PopAsync();
+			await Navigation.PopToRootAsync(true);
 		}
 	}
 }

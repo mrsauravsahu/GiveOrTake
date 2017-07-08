@@ -4,7 +4,6 @@
              x:Class="GiveOrTake.FrontEnd.Shared.Views.TransactionDetailPage"
 			 Title="Details">
 	<ContentPage.ToolbarItems>
-		<ToolbarItem x:Name="EditToolbarItem" Text="Edit" />
 		<ToolbarItem x:Name="CompleteToolbarItem" Text="Complete" />
 		<ToolbarItem x:Name="DeleteToolbarItem" Text="Delete" />
 	</ContentPage.ToolbarItems>

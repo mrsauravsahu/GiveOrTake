@@ -16,7 +16,7 @@
 						   Text="Saving transaction..."/>
 				</StackLayout>
 				<Label Text="Name" />
-				<Entry Text="{Binding Transaction.Name, Mode=OneWayToSource}"
+				<Entry Text="{Binding Transaction.Name, Mode=TwoWay}"
 					   IsEnabled="{Binding IsFree}"
 					   x:Name="NameEntry"/>
 				<Label Text="Item Exchanged"/>
@@ -40,19 +40,19 @@
 					</ListView.ItemTemplate>
 				</ListView>
 				<Label Text="Occurrence Date"/>
-				<DatePicker Date="{Binding Transaction.OccurrenceDate, Mode=OneWayToSource}"
+				<DatePicker Date="{Binding Transaction.OccurrenceDate, Mode=TwoWay}"
 							HorizontalOptions="StartAndExpand"
 							IsEnabled="{Binding IsFree}"
 							x:Name="OccurrenceDataDatePicker"/>
 
 				<Label Text="Expected Completion Date"/>
-				<DatePicker Date="{Binding Transaction.ExpectedCompletionDate, Mode=OneWayToSource}"
+				<DatePicker Date="{Binding Transaction.ExpectedCompletionDate, Mode=TwoWay}"
 							HorizontalOptions="StartAndExpand"
 							IsEnabled="{Binding IsFree}"
 							x:Name="ExpectedCompletionDateDatePicker"/>
 
 				<Label Text="Description" />
-				<Editor Text="{Binding Transaction.Description, Mode=OneWayToSource}"
+				<Editor Text="{Binding Transaction.Description, Mode=TwoWay}"
 							HeightRequest="120"
 						IsEnabled="{Binding IsFree}"
 						x:Name="DescriptionEditor"/>
@@ -64,7 +64,7 @@
 					<Label x:Name="TransactionTypeTextLabel"
 						   Margin="8, 8, 0, 0"
 						   HeightRequest="48"
-						   VerticalOptions="FillAndExpand"/>
+						   VerticalOptions="CenterAndExpand"/>
 				</StackLayout>
 			</StackLayout>
 		</ScrollView>

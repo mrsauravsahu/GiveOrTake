@@ -27,8 +27,7 @@ namespace GiveOrTake.FrontEnd.Shared.Views
 				await DependencyService.Get<DataStore>().DeleteTransactionAsync(this.transaction.TransactionId);
 				await Navigation.PopAsync();
 			};
-			EditToolbarItem.Clicked += async (s, e) =>
-			{ await Navigation.PushAsync(new AddOrEditTransactionPage(this.transaction)); };
+			
 			CompleteToolbarItem.Clicked += async (s, e) =>
 			{
 				await DependencyService.Get<DataStore>().SetTransactionCompleteAsync(this.transaction.TransactionId);

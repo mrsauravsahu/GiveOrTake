@@ -219,6 +219,7 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 		public async Task AddTransactionAsync(Transaction t, string itemName)
 		{
 			Database.Item item;
+			Database.Transaction transaction;
 
 			var user = await context.Users.Include(p => p.Device).FirstOrDefaultAsync();
 
@@ -231,20 +232,34 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 					ItemId = Guid.NewGuid()
 				})).Entity;
 
-			await context.AddAsync(new Transaction
+			if (t.TransactionId == new Guid())
 			{
-				TransactionId = Guid.NewGuid(),
-				Name = t.Name,
-				Description = t.Description,
-				ItemId = item.ItemId,
-				UserId = user.UserId,
-				OccurrenceDate = t.OccurrenceDate,
-				ExpectedCompletionDate = t.ExpectedCompletionDate,
-				CompletionDate = null,
-				TransactionType = t.TransactionType,
-				DeviceId = user.Device.FirstOrDefault().DeviceId
-			});
+				await context.AddAsync(new Transaction
+				{
+					TransactionId = Guid.NewGuid(),
+					Name = t.Name,
+					Description = t.Description,
+					ItemId = item.ItemId,
+					UserId = user.UserId,
+					OccurrenceDate = t.OccurrenceDate,
+					ExpectedCompletionDate = t.ExpectedCompletionDate,
+					CompletionDate = null,
+					TransactionType = t.TransactionType,
+					DeviceId = user.Device.FirstOrDefault().DeviceId
+				});
+			}
+			else
+			{
+				transaction = context.Transactions.Find(t.TransactionId);
 
+				transaction.ItemId = item.ItemId;
+				transaction.Name = t.Name;
+				transaction.Description = t.Description;
+				transaction.ExpectedCompletionDate = t.ExpectedCompletionDate;
+				transaction.OccurrenceDate = t.OccurrenceDate;
+				transaction.TransactionType = t.TransactionType;
+				
+			}
 			await context.SaveChangesAsync();
 		}
 

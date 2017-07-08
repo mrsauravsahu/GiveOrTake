@@ -13,15 +13,6 @@ namespace GiveOrTake.FrontEnd.Shared.ViewModels
 		public MenuPageViewModel()
 		{
 			menuItems = new ObservableRangeCollection<MenuItem>();
-
-			if (!Xamarin.Forms.DependencyService.Get<DataStore>().IsLoggedIn())
-				menuItems.Add(new MenuItem
-				{
-					Label = "Login",
-					Icon = "\uE8FA",
-					Page = new LoginPage()
-				});
-
 			menuItems.AddRange(new List<MenuItem> {
 				new MenuItem {
 					Label = "New Transaction",
