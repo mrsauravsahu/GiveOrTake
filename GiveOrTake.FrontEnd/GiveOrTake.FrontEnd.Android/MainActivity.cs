@@ -12,7 +12,7 @@ namespace GiveOrTake.FrontEnd.Droid
 	{
 		protected override void OnCreate(Bundle bundle)
 		{
-			var dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "gt2.db");
+			var localFolderPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "gt2.db");
 
 			TabLayoutResource = Resource.Layout.Tabbar;
 			ToolbarResource = Resource.Layout.Toolbar;
@@ -23,7 +23,7 @@ namespace GiveOrTake.FrontEnd.Droid
 			DependencyService.Register<ToastNotification>();
 			ToastNotification.Init(this, new PlatformOptions() { SmallIconDrawable = Android.Resource.Drawable.IcDialogInfo });
 
-			LoadApplication(new GiveOrTake.FrontEnd.Shared.App(dbPath));
+			LoadApplication(new GiveOrTake.FrontEnd.Shared.App(localFolderPath));
 		}
 	}
 }

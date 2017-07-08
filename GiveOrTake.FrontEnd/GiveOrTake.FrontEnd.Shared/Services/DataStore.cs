@@ -20,7 +20,7 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 
 		public DataStore()
 		{
-			context = new ApplicationDbContext(App.DatabasePath);
+			context = new ApplicationDbContext(App.LocalFolderPath);
 			context.Database.EnsureCreated();
 		}
 

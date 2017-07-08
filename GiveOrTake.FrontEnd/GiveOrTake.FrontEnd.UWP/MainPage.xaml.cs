@@ -14,7 +14,7 @@ namespace GiveOrTake.FrontEnd.UWP
 			DependencyService.Register<ToastNotification>();
 			ToastNotification.Init();
 			
-			LoadApplication(new GiveOrTake.FrontEnd.Shared.App(App.DatabasePath));
+			LoadApplication(new GiveOrTake.FrontEnd.Shared.App(App.LocalFolderPath));
 		}
 	}
 }

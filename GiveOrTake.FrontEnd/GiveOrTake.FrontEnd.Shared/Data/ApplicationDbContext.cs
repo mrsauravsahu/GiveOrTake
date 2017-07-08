@@ -1,11 +1,12 @@
 ﻿using GiveOrTake.Database;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 
 namespace GiveOrTake.FrontEnd.Shared.Data
 {
 	class ApplicationDbContext : DbContext
 	{
-		private string databasePath;
+		private string localFolderPath;
 
 		public DbSet<User> Users { get; set; }
 		public DbSet<Device> Devices { get; set; }
@@ -14,9 +15,11 @@ namespace GiveOrTake.FrontEnd.Shared.Data
 		public DbSet<RootAccess> RootAccess { get; set; }
 
 		public ApplicationDbContext(string databasePath)
-		{ this.databasePath = databasePath; }
+		{ this.localFolderPath = databasePath; }
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-		{ optionsBuilder.UseSqlite($"Filename={databasePath}"); }
+		{
+			optionsBuilder.UseSqlite($"Filename={Path.Combine(localFolderPath, nameof(ApplicationDbContext))}");
+		}
 	}
 }
