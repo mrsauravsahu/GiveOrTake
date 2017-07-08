@@ -20,6 +20,7 @@ namespace GiveOrTake.FrontEnd.Shared.Views
 		private AddOrEditTransactionPageViewModel viewModel;
 		private List<Database.Item> Items;
 		private List<Database.Item> EmptyList;
+//		private Acr.UserDialogs.IUserDialogs UserDialog => Acr.UserDialogs.UserDialogs.Instance;
 
 		public AddOrEditTransactionPage(Transaction t)
 		{
@@ -113,12 +114,25 @@ namespace GiveOrTake.FrontEnd.Shared.Views
 
 		public async void Save_Clicked(object sender, EventArgs e)
 		{
-			viewModel.IsBusy = true;
-			await DependencyService.Get<DataStore>().AddTransactionAsync(viewModel.Transaction, ItemSearchBar.Text.Trim());
-			viewModel.IsBusy = false;
+			if (validate())
+			{
+				viewModel.IsBusy = true;
+				await DependencyService.Get<DataStore>().AddTransactionAsync(viewModel.Transaction, ItemSearchBar.Text.Trim());
+				viewModel.IsBusy = false;
 
-			cleanupPage();
-			await Navigation.PopToRootAsync(true);
+				cleanupPage();
+				await Navigation.PopToRootAsync(true);
+			}
+		}
+
+		private bool validate()
+		{
+			if (ItemSearchBar.Text == string.Empty)
+			{
+				//UserDialog.Toast("Item cannot be empty.", TimeSpan.FromSeconds(5));
+				return false;
+			}
+			return true;
 		}
 	}
 }

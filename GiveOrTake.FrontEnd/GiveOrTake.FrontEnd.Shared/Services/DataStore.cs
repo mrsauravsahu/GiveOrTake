@@ -1,6 +1,5 @@
 ﻿using GiveOrTake.FrontEnd.Shared.Models;
 using GiveOrTake.FrontEnd.Shared.Data;
-using Plugin.Connectivity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -112,17 +111,17 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 
 			await Task.Run(() =>
 			{
-				if (CrossConnectivity.Current.IsConnected == true)
-				{
-					//Send current device transactions.
-					//Send all items.
+				//if (CrossConnectivity.Current.IsConnected == true)
+				//{
+				//	//Send current device transactions.
+				//	//Send all items.
 
-					//Get all other devices transactions.
-					//Get all items.
+				//	//Get all other devices transactions.
+				//	//Get all items.
 
-					items = new List<Models.Item>();
-					isInitialized = true;
-				}
+				//	items = new List<Models.Item>();
+				//	isInitialized = true;
+				//}
 			});
 		}
 
