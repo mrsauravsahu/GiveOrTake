@@ -24,10 +24,7 @@ namespace GiveOrTake.FrontEnd.Shared
 			var dataStore = DependencyService.Get<DataStore>();
 			var isLoggedIn = dataStore.IsLoggedIn();
 
-			if (isLoggedIn == false)
-				NavigationPage = new NavigationPage(new LoginPage());
-			else
-				NavigationPage = new NavigationPage(new OverviewPage());
+			NavigationPage = new NavigationPage(new OverviewPage());
 
 			MenuPage = new MenuPage();
 			RootPage = new RootPage
@@ -36,18 +33,6 @@ namespace GiveOrTake.FrontEnd.Shared
 				Detail = NavigationPage
 			};
 			MainPage = RootPage;
-		}
-
-		protected override async void OnSleep()
-		{
-			var notificator = DependencyService.Get<IToastNotificator>();
-
-			var result = await notificator.Notify(new NotificationOptions()
-			{
-				Title = "Hello!",
-				Description = "Check back in!",
-				DelayUntil = DateTime.UtcNow + TimeSpan.FromSeconds(10)
-			});
 		}
 	}
 }
