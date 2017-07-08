@@ -12,8 +12,8 @@ namespace GiveOrTake.FrontEnd.Droid
 	{
 		protected override void OnCreate(Bundle bundle)
 		{
-			var localFolderPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "gt2.db");
-
+			var localFolderPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+			
 			TabLayoutResource = Resource.Layout.Tabbar;
 			ToolbarResource = Resource.Layout.Toolbar;
 			base.OnCreate(bundle);
