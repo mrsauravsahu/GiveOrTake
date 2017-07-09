@@ -5,6 +5,7 @@ using System.IO;
 using Xamarin.Forms;
 using Plugin.Toasts;
 using Acr.UserDialogs;
+using Android.Support.V7.App;
 
 namespace GiveOrTake.FrontEnd.Droid
 {
@@ -22,8 +23,8 @@ namespace GiveOrTake.FrontEnd.Droid
 			global::Xamarin.Forms.Forms.Init(this, bundle);
 
 			DependencyService.Register<ToastNotification>();
+			Acr.UserDialogs.UserDialogs.Init(this);
 			ToastNotification.Init(this, new PlatformOptions() { SmallIconDrawable = Resource.Drawable.gt });
-			UserDialogs.Init(this);
 
 			LoadApplication(new GiveOrTake.FrontEnd.Shared.App(localFolderPath));
 		}

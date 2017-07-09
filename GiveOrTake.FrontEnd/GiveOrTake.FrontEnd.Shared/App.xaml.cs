@@ -32,9 +32,5 @@ namespace GiveOrTake.FrontEnd.Shared
 			};
 			MainPage = RootPage;
 		}
-		protected override void OnSleep()
-		{
-			base.OnSleep();
-		}
 	}
 }

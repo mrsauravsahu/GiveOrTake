@@ -22,11 +22,11 @@ namespace GiveOrTake.FrontEnd.Shared.Views
 			this.transaction = transaction;
 			BindingContext = this.transaction;
 
-			DeleteToolbarItem.Clicked += async (s, e) =>
-			{
-				await DependencyService.Get<DataStore>().DeleteTransactionAsync(this.transaction.TransactionId);
-				await Navigation.PopAsync();
-			};
+			//DeleteToolbarItem.Clicked += async (s, e) =>
+			//{
+			//	await DependencyService.Get<DataStore>().DeleteTransactionAsync(this.transaction.TransactionId);
+			//	await Navigation.PopAsync();
+			//};
 
 			CompleteToolbarItem.Clicked += async (s, e) =>
 			{

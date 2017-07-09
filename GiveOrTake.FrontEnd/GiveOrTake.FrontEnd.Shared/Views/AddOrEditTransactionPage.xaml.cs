@@ -2,8 +2,10 @@
 using GiveOrTake.FrontEnd.Shared.Models;
 using GiveOrTake.FrontEnd.Shared.Services;
 using GiveOrTake.FrontEnd.Shared.ViewModels;
+using Plugin.Toasts;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +23,8 @@ namespace GiveOrTake.FrontEnd.Shared.Views
 		private List<Database.Item> Items;
 		private List<Database.Item> EmptyList;
 		private IUserDialog UserDialog => DependencyService.Get<IUserDialog>();
+		bool count = false;
+		IToastNotificator notificator = DependencyService.Get<IToastNotificator>();
 
 		public AddOrEditTransactionPage(Transaction t)
 		{
@@ -111,6 +115,7 @@ namespace GiveOrTake.FrontEnd.Shared.Views
 			ExpectedCompletionDateDatePicker.Date = DateTime.Now;
 			TransactionTypeSwitch.IsToggled = false;
 			ItemSearchBar.Text = string.Empty;
+			count = false;
 		}
 
 		public async void Save_Clicked(object sender, EventArgs e)
@@ -120,6 +125,22 @@ namespace GiveOrTake.FrontEnd.Shared.Views
 				viewModel.IsBusy = true;
 				await DependencyService.Get<DataStore>().AddTransactionAsync(viewModel.Transaction, ItemSearchBar.Text.Trim());
 				viewModel.IsBusy = false;
+
+				if (ExpectedCompletionDateDatePicker.Date + NotificationTimePicker.Time > DateTime.Now)
+				{
+					await notificator.Notify(new NotificationOptions
+					{
+						DelayUntil = ExpectedCompletionDateDatePicker.Date + NotificationTimePicker.Time,
+						Title = "Ping",
+						Description = string.Format("Don't forget, you had {0} a {1}. Time to {2} it back.",
+						   TransactionTypeSwitch.IsToggled ? ("borrowed") : ("lent"),
+						   ItemSearchBar.Text,
+						   TransactionTypeSwitch.IsToggled ? ("give") : ("get")),
+						IsClickable = true
+					});
+
+					Debug.WriteLine($"Notification set for {ExpectedCompletionDateDatePicker.Date + NotificationTimePicker.Time}");
+				}
 
 				cleanupPage();
 				await Navigation.PopToRootAsync(true);
@@ -140,6 +161,9 @@ namespace GiveOrTake.FrontEnd.Shared.Views
 				return showAlert("Item cannot be empty.");
 			if (String.IsNullOrWhiteSpace(DescriptionEditor.Text))
 				return showAlert("Description cannot be empty");
+			if (ExpectedCompletionDateDatePicker.Date + NotificationTimePicker.Time < DateTime.Now)
+				if (count) return true;
+				else return showAlert("Notifications won't be provided if expected completion date is in the past.");
 			return true;
 		}
 	}

@@ -50,13 +50,17 @@
 							IsEnabled="{Binding IsFree}"
 							x:Name="ExpectedCompletionDateDatePicker"
 							HorizontalOptions="FillAndExpand"/>
-
+				<Label Text="Notification Time"/>
+				<TimePicker IsEnabled="{Binding IsFree}"
+							Time="08:00:00"
+							x:Name="NotificationTimePicker"
+							HorizontalOptions="FillAndExpand"/>
 				<Label Text="Description" />
 				<Editor Text="{Binding Transaction.Description, Mode=TwoWay}"
 							HeightRequest="120"
 						IsEnabled="{Binding IsFree}"
 						x:Name="DescriptionEditor"/>
-				<Label Text="TransactionType" />
+				<Label Text="Transaction Type" />
 				<StackLayout Orientation="Horizontal">
 					<Switch Toggled="OnTransactionTypeToggled"
 							IsEnabled="{Binding IsFree}"

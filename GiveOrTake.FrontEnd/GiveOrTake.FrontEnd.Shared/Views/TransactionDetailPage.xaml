@@ -5,7 +5,7 @@
 			 Title="Details">
 	<ContentPage.ToolbarItems>
 		<ToolbarItem x:Name="CompleteToolbarItem" Text="Complete" />
-		<ToolbarItem x:Name="DeleteToolbarItem" Text="Delete" />
+		<!--<ToolbarItem x:Name="DeleteToolbarItem" Text="Delete" />-->
 	</ContentPage.ToolbarItems>
 	<ContentPage.Content>
 		<ScrollView>
