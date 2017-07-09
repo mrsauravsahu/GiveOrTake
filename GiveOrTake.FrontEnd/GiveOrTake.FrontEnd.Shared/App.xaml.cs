@@ -1,5 +1,7 @@
-﻿using GiveOrTake.FrontEnd.Shared.Services;
+﻿using Acr.Notifications;
+using GiveOrTake.FrontEnd.Shared.Services;
 using GiveOrTake.FrontEnd.Shared.Views;
+using Plugin.Toasts;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -29,6 +31,10 @@ namespace GiveOrTake.FrontEnd.Shared
 				Detail = NavigationPage
 			};
 			MainPage = RootPage;
+		}
+		protected override void OnSleep()
+		{
+			base.OnSleep();
 		}
 	}
 }

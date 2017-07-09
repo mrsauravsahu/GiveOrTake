@@ -22,7 +22,7 @@ namespace GiveOrTake.FrontEnd.Droid
 			global::Xamarin.Forms.Forms.Init(this, bundle);
 
 			DependencyService.Register<ToastNotification>();
-			ToastNotification.Init(this, new PlatformOptions() { SmallIconDrawable = Android.Resource.Drawable.IcDialogInfo });
+			ToastNotification.Init(this, new PlatformOptions() { SmallIconDrawable = Resource.Drawable.gt });
 			UserDialogs.Init(this);
 
 			LoadApplication(new GiveOrTake.FrontEnd.Shared.App(localFolderPath));
