@@ -30,13 +30,8 @@
 										   FontSize="Large"
 										   Margin="16, 0, 0, 0"
 										   VerticalOptions="Center"
-										   FontAttributes="Bold">
-										<Label.FontFamily>
-											<OnPlatform x:TypeArguments="x:String"
-														Android="segmdl2.ttf#Segoe MDL2 Assets"
-														WinPhone="Segoe MDL2 Assets" />
-										</Label.FontFamily>
-									</Label>
+										   FontAttributes="Bold"
+										   Style="{StaticResource IconLabelStyle}" />
 									<Label Text="{Binding Label}"
 									   FontSize="Medium"
 									   Margin="8, 0, 0, 0"

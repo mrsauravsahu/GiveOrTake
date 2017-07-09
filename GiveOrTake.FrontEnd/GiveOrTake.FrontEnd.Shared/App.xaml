@@ -13,18 +13,29 @@
 			<Color x:Key="MediumGrayTextColor">#4d4d4d</Color>
 			<Color x:Key="LightTextColor">#999999</Color>
 			<Color x:Key="WarningColor">##EE6D17</Color>
-			
+
 			<Style TargetType="NavigationPage">
 				<Setter Property="BarBackgroundColor" Value="{StaticResource Primary}" />
 				<Setter Property="BarTextColor" Value="White" />
 			</Style>
-			
+
 			<converters:IsBusyToIsFreeConverter x:Key="IsBusyToIsFreeConverter" />
 			<converters:UserTransactionsCountToVisibilityConverter x:Key="UserTransactionsCountToVisibilityConverter" />
 			<converters:UserTransactionsCountToVisibilityReverseConverter x:Key="UserTransactionsCountToVisibilityReverseConverter" />
 			<converters:IsCompleteToStringMessageConverter x:Key="IsCompleteToStringMessageConverter" />
 			<converters:BooleanReverseConverter x:Key="BooleanReverseConverter" />
 			<converters:CollectionCountToBooleanConverter x:Key="CollectionCountToBooleanConverter" />
+
+			<Style TargetType="Label"
+				   x:Key="IconLabelStyle">
+				<Setter Property="FontFamily">
+					<Setter.Value>
+						<OnPlatform x:TypeArguments="x:String"
+									Android="segmdl2.ttf#Segoe MDL2 Assets"
+									WinPhone="Segoe MDL2 Assets" />
+					</Setter.Value>
+				</Setter>
+			</Style>
 		</ResourceDictionary>
 	</Application.Resources>
 </Application>

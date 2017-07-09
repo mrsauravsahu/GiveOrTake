@@ -267,3 +267,6 @@ __pycache__/
 /GiveOrTake.FrontEnd/outputs
 /GiveOrTake.FrontEnd/GiveOrTake.FrontEnd.Android/Resources/drawable
 /GiveOrTake.FrontEnd/GiveOrTake.FrontEnd.UWP/profile.jpg
+/GiveOrTake.FrontEnd/GiveOrTake.FrontEnd.UWP/me.jpg
+/GiveOrTake.FrontEnd/GiveOrTake.FrontEnd.UWP/me.jpg
+*.jpg
