@@ -20,7 +20,7 @@ namespace GiveOrTake.FrontEnd.Shared.Views
 		private AddOrEditTransactionPageViewModel viewModel;
 		private List<Database.Item> Items;
 		private List<Database.Item> EmptyList;
-//		private Acr.UserDialogs.IUserDialogs UserDialog => Acr.UserDialogs.UserDialogs.Instance;
+		private IUserDialog UserDialog => DependencyService.Get<IUserDialog>();
 
 		public AddOrEditTransactionPage(Transaction t)
 		{
@@ -64,6 +64,7 @@ namespace GiveOrTake.FrontEnd.Shared.Views
 
 		public void UpdateFilteredItemsCollectionCommand(object sender, TextChangedEventArgs e)
 		{
+			if (Items is null) return;
 			IList<Database.Item> source;
 			if (string.IsNullOrWhiteSpace(e.NewTextValue))
 			{ source = Items; }
@@ -127,11 +128,18 @@ namespace GiveOrTake.FrontEnd.Shared.Views
 
 		private bool validate()
 		{
-			if (ItemSearchBar.Text == string.Empty)
+			bool showAlert(string message)
 			{
-				//UserDialog.Toast("Item cannot be empty.", TimeSpan.FromSeconds(5));
+				UserDialog.Show(message, "Alert", TimeSpan.FromSeconds(5));
 				return false;
 			}
+
+			if (String.IsNullOrWhiteSpace(NameEntry.Text))
+				return showAlert("Transaction Name cannot be empty.");
+			if (String.IsNullOrWhiteSpace(ItemSearchBar.Text))
+				return showAlert("Item cannot be empty.");
+			if (String.IsNullOrWhiteSpace(DescriptionEditor.Text))
+				return showAlert("Description cannot be empty");
 			return true;
 		}
 	}

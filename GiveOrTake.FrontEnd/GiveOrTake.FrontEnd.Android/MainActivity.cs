@@ -4,6 +4,7 @@ using Android.OS;
 using System.IO;
 using Xamarin.Forms;
 using Plugin.Toasts;
+using Acr.UserDialogs;
 
 namespace GiveOrTake.FrontEnd.Droid
 {
@@ -13,7 +14,7 @@ namespace GiveOrTake.FrontEnd.Droid
 		protected override void OnCreate(Bundle bundle)
 		{
 			var localFolderPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-			
+
 			TabLayoutResource = Resource.Layout.Tabbar;
 			ToolbarResource = Resource.Layout.Toolbar;
 			base.OnCreate(bundle);
@@ -22,6 +23,7 @@ namespace GiveOrTake.FrontEnd.Droid
 
 			DependencyService.Register<ToastNotification>();
 			ToastNotification.Init(this, new PlatformOptions() { SmallIconDrawable = Android.Resource.Drawable.IcDialogInfo });
+			UserDialogs.Init(this);
 
 			LoadApplication(new GiveOrTake.FrontEnd.Shared.App(localFolderPath));
 		}

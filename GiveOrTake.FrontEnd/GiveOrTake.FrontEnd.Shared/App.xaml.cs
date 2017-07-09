@@ -1,4 +1,6 @@
-﻿using GiveOrTake.FrontEnd.Shared.Views;
+﻿using GiveOrTake.FrontEnd.Shared.Services;
+using GiveOrTake.FrontEnd.Shared.Views;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -11,6 +13,7 @@ namespace GiveOrTake.FrontEnd.Shared
 		public static NavigationPage NavigationPage { get; set; }
 		public static RootPage RootPage { get; set; }
 		public static MenuPage MenuPage { get; set; }
+		public static IUserDialog Dialog => DependencyService.Get<IUserDialog>();
 
 		public App(string localFolderPath)
 		{

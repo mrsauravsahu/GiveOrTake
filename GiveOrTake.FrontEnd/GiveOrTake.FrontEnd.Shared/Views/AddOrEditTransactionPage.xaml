@@ -41,15 +41,15 @@
 				</ListView>
 				<Label Text="Occurrence Date"/>
 				<DatePicker Date="{Binding Transaction.OccurrenceDate, Mode=TwoWay}"
-							HorizontalOptions="StartAndExpand"
 							IsEnabled="{Binding IsFree}"
-							x:Name="OccurrenceDataDatePicker"/>
+							x:Name="OccurrenceDataDatePicker"
+							HorizontalOptions="FillAndExpand"/>
 
 				<Label Text="Expected Completion Date"/>
 				<DatePicker Date="{Binding Transaction.ExpectedCompletionDate, Mode=TwoWay}"
-							HorizontalOptions="StartAndExpand"
 							IsEnabled="{Binding IsFree}"
-							x:Name="ExpectedCompletionDateDatePicker"/>
+							x:Name="ExpectedCompletionDateDatePicker"
+							HorizontalOptions="FillAndExpand"/>
 
 				<Label Text="Description" />
 				<Editor Text="{Binding Transaction.Description, Mode=TwoWay}"
@@ -62,9 +62,10 @@
 							IsEnabled="{Binding IsFree}"
 							x:Name="TransactionTypeSwitch"/>
 					<Label x:Name="TransactionTypeTextLabel"
+						   FontSize="Medium"
 						   Margin="8, 8, 0, 0"
-						   HeightRequest="48"
-						   VerticalOptions="CenterAndExpand"/>
+						   HorizontalOptions="EndAndExpand"
+						   VerticalOptions="Center"/>
 				</StackLayout>
 			</StackLayout>
 		</ScrollView>

@@ -1,5 +1,4 @@
-﻿using GiveOrTake.FrontEnd.Shared.Models;
-using GiveOrTake.FrontEnd.Shared.Data;
+﻿using GiveOrTake.FrontEnd.Shared.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +13,6 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 	public class DataStore
 	{
 		ApplicationDbContext context;
-		bool isInitialized;
-		List<Models.Item> items;
 
 		public DataStore()
 		{
@@ -37,15 +34,6 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 			}
 		}
 
-		public async Task<bool> AddItemAsync(Models.Item item)
-		{
-			await InitializeAsync();
-
-			items.Add(item);
-
-			return await Task.FromResult(true);
-		}
-
 		internal async Task SetTransactionCompleteAsync(Guid transactionId)
 		{
 			var id = transactionId.ToString();
@@ -60,73 +48,16 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 			}
 		}
 
-		public async Task<bool> UpdateItemAsync(Models.Item item)
-		{
-			await InitializeAsync();
-
-			var _item = items.Where((Models.Item arg) => arg.Id == item.Id).FirstOrDefault();
-			items.Remove(_item);
-			items.Add(item);
-
-			return await Task.FromResult(true);
-		}
-
-		public async Task<bool> DeleteItemAsync(Models.Item item)
-		{
-			await InitializeAsync();
-
-			var _item = items.Where((Models.Item arg) => arg.Id == item.Id).FirstOrDefault();
-			items.Remove(_item);
-
-			return await Task.FromResult(true);
-		}
-
-		public async Task<Models.Item> GetItemAsync(string id)
-		{
-			await InitializeAsync();
-
-			return await Task.FromResult(items.FirstOrDefault(s => s.Id == id));
-		}
-
-		public async Task<IEnumerable<Models.Item>> GetItemsAsync(bool forceRefresh = false)
-		{
-			await InitializeAsync();
-
-			return await Task.FromResult(items);
-		}
-
-		public Task<bool> PullLatestAsync()
-		{
-			return Task.FromResult(true);
-		}
-
-		public Task<bool> SyncAsync()
-		{
-			return Task.FromResult(true);
-		}
-
 		public async Task InitializeAsync()
 		{
-			if (isInitialized) return;
-
-			await Task.Run(() =>
-			{
-				//if (CrossConnectivity.Current.IsConnected == true)
-				//{
-				//	//Send current device transactions.
-				//	//Send all items.
-
-				//	//Get all other devices transactions.
-				//	//Get all items.
-
-				//	items = new List<Models.Item>();
-				//	isInitialized = true;
-				//}
-			});
+			if (context.Users.Count() != 0) return;
+			await CreateUserAsync(null);
 		}
 
-		public async Task<Database.User> GetUserDetails()
+		public async Task<User> GetUserDetails()
 		{
+			await this.InitializeAsync();
+
 			return await context.Users
 				.Include(p => p.Device)
 				.Include(p => p.Transaction)
@@ -150,13 +81,12 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 					LastName = "",
 					Email = ""
 				})).Entity;
-				await context.AddAsync(new Database.Device
+				var device = (await context.AddAsync(new Database.Device
 				{
 					UserId = newUser.UserId,
 					Name = "This Device",
-					DeviceId = Guid.NewGuid(),
-					//TODO
-				});
+					DeviceId = Guid.NewGuid()
+				})).Entity;
 			}
 			else
 			{
@@ -257,7 +187,7 @@ namespace GiveOrTake.FrontEnd.Shared.Services
 				transaction.ExpectedCompletionDate = t.ExpectedCompletionDate;
 				transaction.OccurrenceDate = t.OccurrenceDate;
 				transaction.TransactionType = t.TransactionType;
-				
+
 			}
 			await context.SaveChangesAsync();
 		}

@@ -95,7 +95,7 @@ namespace GiveOrTake.FrontEnd.Shared.ViewModels
 					.ToList()
 					.ForEach(p => UpcomingTransactions.Add(p));
 
-				ShowNoTransactions = (user.Transaction.Count == 0);
+				ShowNoTransactions = (UpcomingTransactions.Count == 0);
 				ShowTransactions = !ShowNoTransactions;
 			}
 			catch (Exception e) { }
