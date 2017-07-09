@@ -27,11 +27,11 @@ namespace GiveOrTake.FrontEnd.Shared.Views
 				await DependencyService.Get<DataStore>().DeleteTransactionAsync(this.transaction.TransactionId);
 				await Navigation.PopAsync();
 			};
-			
+
 			CompleteToolbarItem.Clicked += async (s, e) =>
 			{
 				await DependencyService.Get<DataStore>().SetTransactionCompleteAsync(this.transaction.TransactionId);
-				await Navigation.PopAsync();
+				await Navigation.PopToRootAsync(true);
 			};
 		}
 	}
