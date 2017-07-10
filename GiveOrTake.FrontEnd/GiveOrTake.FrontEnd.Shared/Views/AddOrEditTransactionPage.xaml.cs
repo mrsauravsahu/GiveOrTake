@@ -131,12 +131,11 @@ namespace GiveOrTake.FrontEnd.Shared.Views
 					await notificator.Notify(new NotificationOptions
 					{
 						DelayUntil = ExpectedCompletionDateDatePicker.Date + NotificationTimePicker.Time,
-						Title = "Ping",
-						Description = string.Format("Don't forget, you had {0} a {1}. Time to {2} it back.",
-						   TransactionTypeSwitch.IsToggled ? ("borrowed") : ("lent"),
-						   ItemSearchBar.Text,
-						   TransactionTypeSwitch.IsToggled ? ("give") : ("get")),
-						IsClickable = true
+						Title = "Ping...",
+						Description = string.Format("Time to {0} the {1} {2} back.",
+						   TransactionTypeSwitch.IsToggled ? "give" : "get",
+						   TransactionTypeSwitch.IsToggled ? "borrowed" : "lent",
+						   ItemSearchBar.Text)
 					});
 
 					Debug.WriteLine($"Notification set for {ExpectedCompletionDateDatePicker.Date + NotificationTimePicker.Time}");
