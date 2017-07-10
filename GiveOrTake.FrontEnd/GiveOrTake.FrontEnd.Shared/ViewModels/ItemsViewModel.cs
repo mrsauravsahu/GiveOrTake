@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using GiveOrTake.FrontEnd.Shared.Helpers;
 using GiveOrTake.FrontEnd.Shared.Views;
 
+using Acr.UserDialogs;
 using Xamarin.Forms;
 using GiveOrTake.Database;
+using GiveOrTake.FrontEnd.Shared.Services;
 
 namespace GiveOrTake.FrontEnd.Shared.ViewModels
 {
@@ -14,19 +16,27 @@ namespace GiveOrTake.FrontEnd.Shared.ViewModels
 	{
 		public ObservableRangeCollection<Item> Items { get; set; }
 		public Command LoadItemsCommand { get; set; }
+		public Command InfoItemCommand { get; set; }
+		private IUserDialog UserDialog => DependencyService.Get<IUserDialog>();
 
 		public ItemsViewModel()
 		{
 			Title = "My Items";
 			Items = new ObservableRangeCollection<Item>();
 			LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+			InfoItemCommand = new Command(async (parameter) => await ExecuteInfoItemCommand((parameter as Item)));
+		}
 
-			//MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
-			//{
-			//	var _item = item as Item;
-			//	Items.Add(_item);
-			//	await DataStore.AddItemAsync(_item);
-			//});
+		public async Task ExecuteInfoItemCommand(Item item)
+		{
+			await UserDialogs.Instance.AlertAsync(new AlertConfig
+			{
+				Message = item.Transaction.Count == 0 ?
+					"This item is not referenced by any transactions." :
+					(item.Transaction.Count == 1) ? "This item is referenced by 1 transaction." : $"This item is referenced by {item.Transaction.Count} transactions.",
+				OkText = "Close",
+				Title = "Info"
+			});
 		}
 
 		public async Task ExecuteLoadItemsCommand()

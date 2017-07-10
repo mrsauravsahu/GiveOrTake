@@ -4,31 +4,35 @@
              x:Class="GiveOrTake.FrontEnd.Shared.Views.ItemsPage"
               Title="{Binding Title}"
              x:Name="BrowseItemsPage">
-  <ContentPage.Content>
-    <StackLayout>
-      <ListView x:Name="ItemsListView"
+	<ContentPage.Content>
+		<StackLayout>
+			<ListView x:Name="ItemsListView"
 				ItemsSource="{Binding Items}"
                 VerticalOptions="FillAndExpand"
                 RefreshCommand="{Binding LoadItemsCommand}"
                 IsPullToRefreshEnabled="true"
                 IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-				IsEnabled="False"
                 CachingStrategy="RecycleElement"
 				RowHeight="48">
-        <ListView.ItemTemplate>
-          <DataTemplate>
-            <ViewCell>
-              <StackLayout Padding="10">
-                <Label Text="{Binding Name}"
-                       LineBreakMode="NoWrap"
-                       Style="{DynamicResource ListItemTextStyle}"
-                       FontSize="Medium"
-					   FontAttributes="Bold"/>
-              </StackLayout>
-            </ViewCell>
-          </DataTemplate>
-        </ListView.ItemTemplate>
-      </ListView>
-    </StackLayout> 
-  </ContentPage.Content>
+				<ListView.ItemTemplate>
+					<DataTemplate>
+						<ViewCell>
+							<ViewCell.ContextActions>
+								<MenuItem Text="Info"
+										  Command="{Binding BindingContext.InfoItemCommand, Source={x:Reference BrowseItemsPage}}"
+										  CommandParameter="{Binding}"/>
+							</ViewCell.ContextActions>
+							<StackLayout Padding="10">
+								<Label Text="{Binding Name}"
+									   LineBreakMode="NoWrap"
+									   Style="{DynamicResource ListItemTextStyle}"
+									   FontSize="Medium"
+									   FontAttributes="Bold"/>
+							</StackLayout>
+						</ViewCell>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+			</ListView>
+		</StackLayout>
+	</ContentPage.Content>
 </ContentPage>
