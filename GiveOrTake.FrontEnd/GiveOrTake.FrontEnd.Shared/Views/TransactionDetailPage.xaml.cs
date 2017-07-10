@@ -21,18 +21,32 @@ namespace GiveOrTake.FrontEnd.Shared.Views
 			InitializeComponent();
 			this.transaction = transaction;
 			BindingContext = this.transaction;
-
-			//DeleteToolbarItem.Clicked += async (s, e) =>
-			//{
-			//	await DependencyService.Get<DataStore>().DeleteTransactionAsync(this.transaction.TransactionId);
-			//	await Navigation.PopAsync();
-			//};
-
-			CompleteToolbarItem.Clicked += async (s, e) =>
+		}
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+			if (this.transaction.IsComplete)
 			{
-				await DependencyService.Get<DataStore>().SetTransactionCompleteAsync(this.transaction.TransactionId);
-				await Navigation.PopToRootAsync(true);
-			};
+				var deleteToolbarItem = new ToolbarItem
+				{ Text = "Delete" };
+
+				deleteToolbarItem.Clicked += async (s, e) =>
+				{
+					await DependencyService.Get<DataStore>().DeleteTransactionAsync(this.transaction.TransactionId);
+					await Navigation.PopToRootAsync(true);
+				};
+				this.ToolbarItems.Add(deleteToolbarItem);
+			}
+			else
+			{
+				var completeToolbarItem = new ToolbarItem { Text = "Complete" };
+				completeToolbarItem.Clicked += async (s, e) =>
+				{
+					await DependencyService.Get<DataStore>().SetTransactionCompleteAsync(this.transaction.TransactionId);
+					await Navigation.PopToRootAsync(true);
+				};
+				this.ToolbarItems.Add(completeToolbarItem);
+			}
 		}
 	}
 }

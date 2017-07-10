@@ -25,7 +25,8 @@
 			<converters:IsCompleteToStringMessageConverter x:Key="IsCompleteToStringMessageConverter" />
 			<converters:BooleanReverseConverter x:Key="BooleanReverseConverter" />
 			<converters:CollectionCountToBooleanConverter x:Key="CollectionCountToBooleanConverter" />
-
+			<converters:IsCompleteToFontColorConverter x:Key="IsCompleteToFontColorConverter" />
+			
 			<Style TargetType="Label"
 				   x:Key="IconLabelStyle">
 				<Setter Property="FontFamily">

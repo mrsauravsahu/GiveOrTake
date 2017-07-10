@@ -21,11 +21,13 @@
 							<StackLayout Padding="10">
 								<Label Text="{Binding Name}"
 									   LineBreakMode="NoWrap"
+									   TextColor="{Binding IsComplete, Converter={StaticResource IsCompleteToFontColorConverter}}"
 									   Style="{DynamicResource ListItemTextStyle}"
 									   FontSize="Medium"
 									   FontAttributes="Bold"/>
 								<Label Text="{Binding Description}"
 									   LineBreakMode="NoWrap"
+									   TextColor="{Binding IsComplete, Converter={StaticResource IsCompleteToFontColorConverter}}"
 									   Style="{DynamicResource ListItemTextStyle}"
 									   FontSize="Small"/>
 							</StackLayout>
